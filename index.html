@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Asistencia al Trabajo</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .metric-card {
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f8f9fa; /* Color gris claro */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center; /* Centrar contenido */
+        }
+        .metric-header {
+            color: #343a40; /* Color de texto más oscuro */
+        }
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff; /* Color azul para los valores */
+            margin: 10px 0; /* Margen superior e inferior */
+        }
+        .chart-container {
+            position: relative;
+            height: 200px; /* Altura ajustada para la gráfica */
+            margin: 20px auto; /* Centrar gráfica */
+            max-width: 600px; /* Ancho máximo para la gráfica */
+        }
+        .rules-container {
+            display: none; /* Ocultar por defecto */
+            margin-top: 20px;
+        }
+        .rules-list {
+            display: flex;
+            justify-content: space-between;
+        }
+        .rule {
+            padding: 10px;
+            background-color: #e9ecef; /* Color gris más claro */
+            border-radius: 8px;
+            margin: 5px;
+        }
+        /* Estilos de la tarjeta circular */
+        .circular-card {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            background-color: #f8f9fa; /* Color gris claro */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin: 20px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .circular-card:hover {
+            transform: scale(1.05); /* Efecto de agrandamiento al pasar el ratón */
+        }
+
+        /* Imagen de fondo */
+        .circular-card img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+        }
+
+        /* Contenido de la tarjeta */
+        .circular-card-content {
+            z-index: 2;
+            color: #343a40;
+        }
+
+        .circular-card h4 {
+            font-size: 18px;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .circular-card p {
+            font-size: 24px;
+            color: #fff;
+            font-weight: bold;
+            margin: 10px 0;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Alineación de las tarjetas */
+        .row {
+            display: flex;
+            justify-content: center;
+        }
+
+
+                /* Estilos de la tarjeta en forma de rombo */
+                .diamond-card {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            margin: 20px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .diamond-card:before,
+        .diamond-card:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%) rotate(45deg);
+            width: 200px;
+            height: 200px;
+            background-color: #f8f9fa; /* Color gris claro */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            opacity: 0.8;
+            transition: transform 0.3s;
+        }
+
+        .diamond-card:hover:before,
+        .diamond-card:hover:after {
+            transform: translateX(-50%) rotate(45deg) scale(1.05); /* Efecto de agrandamiento al pasar el ratón */
+        }
+
+        .diamond-card img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.5;
+            border-radius: 8px; /* Para suavizar los bordes */
+        }
+
+        /* Contenido de la tarjeta */
+        .diamond-card-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 2;
+            color: #343a40;
+        }
+
+        .diamond-card h4 {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .diamond-card p {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        /* Alineación de las tarjetas */
+        .row {
+            display: flex;
+            justify-content: center;
+        }
+
+        .table-container {
+            display: none; /* Oculta la tabla por defecto */
+            margin-top: 20px;
+        }
+        .btn-custom {
+            margin: 20px auto; /* Centra el botón */
+            display: block; /* Para que el margen funcione */
+        }
+        /* Estilo personalizado para la tabla */
+        .custom-table {
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .custom-table th, .custom-table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+                /* Estilos de la tarjeta octagonal */
+                .octagonal-card {
+            width: 200px;
+            height: 200px;
+            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+            overflow: hidden;
+            background-color: #f8f9fa; /* Color gris claro */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin: 20px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .octagonal-card:hover {
+            transform: scale(1.05); /* Efecto de agrandamiento al pasar el ratón */
+        }
+
+        /* Imagen de fondo */
+        .octagonal-card img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+        }
+
+        /* Contenido de la tarjeta */
+        .octagonal-card-content {
+            z-index: 2;
+            color: #343a40;
+        }
+
+        .octagonal-card h4 {
+            font-size: 18px;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .octagonal-card p {
+            font-size: 24px;
+            color: #fff;
+            font-weight: bold;
+            margin: 10px 0;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Alineación de las tarjetas */
+        .row {
+            display: flex;
+            justify-content: center;
+        }
+
+    </style>
+</head>
+<body>
+
+    <br>
+
+    <br>
+
+    <br>
+    
+    <br>
+    <div class="container">
+        <h1 class="text-center my-4">Dashboard Goals Q3 - Diego Alejandro Posada Llano</h1>
+
+
+        <div style="text-align: center; margin-top: 20px;">
+            <h3 style="color: #75b6b6; font-weight: bold;">Asistencia por Mes</h3>
+            <p style="font-size: 14px;">Criterio: 1 vez por sprint</p>
+            <p>El gráfico muestra la cantidad de asistencias registradas cada mes. Cada asistencia corresponde a un encuentro realizado durante el sprint.</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-12">
+                <div class="metric-card">
+                    <h4 class="metric-header">Asistencia por Mes</h4>
+                    <div class="chart-container">
+                        <canvas id="asistenciaChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div style="text-align: center; margin-top: 20px;">
+            <h3 style="color: #75b6b6; font-weight: bold;">Reglas de Falco</h3>
+            <p style="font-size: 14px;">Criterio: Sumar entre 6 y 8 Reglas Custom al baseline</p>
+            <p>El gráfico muestra la cantidad de asistencias registradas cada mes. Cada asistencia corresponde a un encuentro realizado durante el sprint.</p>
+        </div>
+        
+
+        <div class="row justify-content-center"> <!-- Centrar las tarjetas -->
+
+            <!-- Vendor Rules -->
+            <div class="col-md-4">
+                <div class="metric-card">
+                    <h4 class="metric-header">Vendor Rules</h4>
+                    <p class="metric-value">10</p>
+                </div>
+            </div>
+
+
+            <!-- Custom Rules -->
+            <div class="col-md-4">
+                <div class="metric-card">
+                    <h4 class="metric-header">Custom Rules</h4>
+                    <p class="metric-value">10</p>
+                </div>
+            </div>
+
+            <!-- Third Party Rules -->
+            <div class="col-md-4">
+                <div class="metric-card">
+                    <h4 class="metric-header">Third Party Rules</h4>
+                    <p class="metric-value">5</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botón para ver reglas -->
+        <div class="text-center">
+            <button class="btn btn-primary" onclick="toggleRules()">Ver reglas</button>
+        </div>
+
+        <!-- Contenedor para las reglas -->
+        <div class="rules-container" id="rulesContainer">
+            <h4 class="text-center my-3">Reglas</h4>
+            <div class="rules-list">
+                <div>
+                    <h5>Reglas Custom</h5>
+                    <div class="rule">experimental 17 - Malicious cURL commands [custom]</div>
+                    <div class="rule">experimental 18 - Container escape behaviors detected inside the container [custom]</div>
+                    <div class="rule">experimental 19 - Container escape behavior based core pattern [custom]</div>
+                    <div class="rule">experimental 20 - Container escape behavior based binfmt_misc [custom]</div>
+                    <div class="rule">experimental 21 - ROOTKIT</div>
+                    <div class="rule">experimental 23 - Web Scanner process detected inside a container [custom]</div>
+                    <div class="rule">experimental 23 - Fuzzy tools detected in container [custom]</div>
+                    <div class="rule">Regla Custom 24</div>
+                    <div class="rule">Regla Custom 25</div>
+                    <div class="rule">Regla Custom 26</div>
+                </div>
+                <div>
+                    <h5>Reglas Third Party</h5>
+                    <div class="rule">Reverse shell [Third party]</div>
+                    <div class="rule">RCE</div>
+                    <div class="rule">Regla Third Party 3</div>
+                    <div class="rule">Regla Third Party 4</div>
+                </div>
+            </div>
+        </div>
+
+
+        <div style="text-align: center; margin-top: 20px;">
+            <h3 style="color: #75b6b6; font-weight: bold;">Workshop interactivo Falco para IRT</h3>
+            <p style="font-size: 14px;">Criterio: Llevar a produccion entre 3 alertas o 7 a test</p>
+            <p>El gráfico muestra la cantidad de asistencias registradas cada mes. Cada asistencia corresponde a un encuentro realizado durante el sprint.</p>
+        
+        </div>
+
+        <div class="container">
+            <h3 class="text-center my-4">Entregables</h3>
+    
+            <div class="row">
+                <!-- Tarjeta 1 -->
+                <div class="circular-card" onclick="window.location.href='https://docs.google.com/presentation/d/1Tcwmnff4NmQFijmVGE5lWihYeockYu1RddeJ2aoozTI/edit#slide=id.g2ec982a19fd_0_27'">
+                    <img src="assets/cybertraining.jpg" alt="Imagen de fondo" style="width: 150px; height: 150px;">
+                    <div class="circular-card-content">
+                        <h3 style="color: red;"">Workshop</h3>
+                    </div>
+                </div>
+    
+                <!-- Tarjeta 2 -->
+                <div class="circular-card" onclick="window.location.href='https://www.ejemplo.com/custom'">
+                    <img src="assets/peregrinus.png" alt="Imagen de fondo">
+                    <div class="circular-card-content">
+                        <h3 style="color: red;"">Peregrine</h3>
+                    </div>
+                </div>
+    
+                <!-- Tarjeta 3 -->
+                <div class="circular-card" onclick="window.location.href='https://www.ejemplo.com/third-party'">
+                    <img src="assets/cyber-documentationpng" alt="Imagen de fondo" style="width: 180px; height: 180px;">
+                    <div class="circular-card-content">
+                        <h3 style="color: red;">Documentation</h3>
+                    </div>
+                </div>
+            </div>
+        </div>  
+
+
+
+        <div style="text-align: center; margin-top: 20px;">
+            <h3 style="color: #75b6b6; font-weight: bold;">Integración de Semáforos de Seguridad en Kubernetes</h3>
+            <p style="font-size: 14px;">Criterio: Semáforos implementados en diferentes escenarios de seguridad</p>
+            <p>El gráfico muestra la descripción de cada semáforo y su estado en el entorno de producción.</p>
+        </div>
+        
+        <div class="container">
+            <h4 class="text-center my-3">Semáforos</h4>
+            <button class="btn btn-primary btn-custom" id="toggleButton" onclick="toggleSemaphores()">Ver Semáforos</button>
+        
+            <div class="table-container" id="semaphoresContainer">
+                <table class="table table-bordered custom-table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Nombre del Semáforo</th>
+                            <th>Descripción</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Directory traversal pattern</td>
+                            <td>Semáforo capaz de detectar escenarios anómalos del tipo directory traversal pattern</td>
+                            <td>PROD</td>
+                        </tr>
+                        <tr>
+                            <td>Exfiltration</td>
+                            <td>Semáforo capaz de detectar escenarios anómalos de exfiltración de datos en los clusters de Kubernetes</td>
+                            <td>PROD</td>
+                        </tr>
+                        <tr>
+                            <td>Lateral movement</td>
+                            <td>Semáforo capaz de detectar escenarios anómalos de movimiento lateral en los clusters de Kubernetes</td>
+                            <td>PROD</td>
+                        </tr>
+                        <tr>
+                            <td>Persistence</td>
+                            <td>Semáforo capaz de detectar escenarios anómalos de persistencia en los clusters de Kubernetes</td>
+                            <td>PROD</td>
+                        </tr>
+                        <tr>
+                            <td>Execution</td>
+                            <td>Semáforo capaz de detectar escenarios anómalos de ejecución de comandos en los clusters de Kubernetes</td>
+                            <td>PROD</td>
+                        </tr>
+                        <tr>
+                            <td>Kernel Module Injection</td>
+                            <td>Semáforo capaz de detectar comportamientos anómalos de inyección en el módulo del kernel</td>
+                            <td>PROD</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div style="text-align: center; margin-top: 20px;">
+            <h3 style="color: #75b6b6; font-weight: bold;">Integración alertas de Falco con Bee</h3>
+            <p style="font-size: 14px;">Criterio: Llevar a produccion entre 3 alertas o 7 a test</p>
+            <p>El gráfico muestra la cantidad de asistencias registradas cada mes. Cada asistencia corresponde a un encuentro realizado durante el sprint.</p>
+        </div>
+
+        <div class="container">
+            <h4 class="text-center my-3">Alertas</h4>
+            <button class="btn btn-primary btn-custom" id="toggleButton" onclick="toggleAlerts()">Ver Alertas</button>
+    
+            <div class="table-container" id="alertsContainer">
+                <table class="table table-bordered custom-table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Estado</th>
+                            <th>Skip-Duplicates</th>
+                            <th>Skip-Duplicates Date</th>
+                            <th>Actor1</th>
+                            <th>Actor2</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>[Falco] Launch Remote File Copy Tools in Container</td>
+                            <td>PROD</td>
+                            <td>PROD</td>
+                            <td>septiembre 13 de 2024</td>
+                            <td>Waiting</td>
+                            <td>Obsec</td>
+                        </tr>
+                        <tr>
+                            <td>[Falco] Read ssh information</td>
+                            <td>TEST</td>
+                            <td>TEST</td>
+                            <td>septiembre 23 de 2024</td>
+                            <td>Waiting</td>
+                            <td>Obsec</td>
+                        </tr>
+                        <tr>
+                            <td>[Falco] Launch Suspicious Network Tool in Container</td>
+                            <td>TEST</td>
+                            <td>TEST</td>
+                            <td>septiembre 23 de 2024</td>
+                            <td>Waiting</td>
+                            <td>Obsec</td>
+                        </tr>
+                        <tr>
+                            <td>[Falco] Netcat Remote Code Execution in Container</td>
+                            <td>TEST</td>
+                            <td>TEST</td>
+                            <td>septiembre 23 de 2024</td>
+                            <td>Waiting</td>
+                            <td>Obsec</td>
+                        </tr>
+                        <tr>
+                            <td>[Falco] Launch Suspicious Network Tool on Host</td>
+                            <td>TEST</td>
+                            <td>TEST</td>
+                            <td>septiembre 23 de 2024</td>
+                            <td>Waiting</td>
+                            <td>Obsec</td>
+                        </tr>
+                        <tr>
+                            <td>[Falco] DB program spawned process</td>
+                            <td>TEST</td>
+                            <td>TEST</td>
+                            <td>septiembre 23 de 2024</td>
+                            <td>Waiting</td>
+                            <td>Obsec</td>
+                        </tr>
+                        <tr>
+                            <td>[Falco] Write below rpm database</td>
+                            <td>TEST</td>
+                            <td>TEST</td>
+                            <td>septiembre 23 de 2024</td>
+                            <td>Waiting</td>
+                            <td>Obsec</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <h3 style="color: #75b6b6; font-weight: bold;">Valor agregado Falco</h3>
+            <p style="font-size: 14px;">Criterio: Llevar a produccion entre 3 alertas o 7 a test</p>
+            <p>El gráfico muestra la cantidad de asistencias registradas cada mes. Cada asistencia corresponde a un encuentro realizado durante el sprint.</p>
+        </div>
+
+
+        <div class="container">
+            <h3 class="text-center my-4">Entregables</h3>
+    
+            <br>
+
+            <div class="row">
+                <!-- Tarjeta 1 -->
+                <div class="diamond-card" onclick="window.location.href='https://docs.google.com/presentation/d/1Tcwmnff4NmQFijmVGE5lWihYeockYu1RddeJ2aoozTI/edit#slide=id.g2ec982a19fd_0_27'">
+                    <img src="https://via.placeholder.com/200" alt="Imagen de fondo">
+                    <div class="diamond-card-content">
+                        <h4>Falco Rules Activity Report</h4>
+                    </div>
+                </div>
+    
+                <!-- Tarjeta 2 -->
+                <div class="diamond-card" onclick="window.location.href='https://www.ejemplo.com/custom'">
+                    <img src="https://via.placeholder.com/200" alt="Imagen de fondo">
+                    <div class="diamond-card-content">
+                        <h4>Propuesta Dashboard Madurez</h4>
+                    </div>
+                </div>
+    
+                <!-- Tarjeta 3 -->
+                <div class="diamond-card" onclick="window.location.href='https://www.ejemplo.com/third-party'">
+                    <img src="https://via.placeholder.com/200" alt="Imagen de fondo">
+                    <div class="diamond-card-content">
+                        <h4>Remote Access Trojan</h4>
+                    </div> 
+                </div>
+            </div>
+        </div>
+
+
+        <div style="text-align: center; margin-top: 20px;">
+            <h3 style="color: #75b6b6; font-weight: bold;">RFC Falco en Instancias EC2</h3>
+            <p style="font-size: 14px;">Criterio: Llevar a produccion entre 3 alertas o 7 a test</p>
+            <p>El gráfico muestra la cantidad de asistencias registradas cada mes. Cada asistencia corresponde a un encuentro realizado durante el sprint.</p>
+        </div>
+
+
+        <div class="container">
+            <h3 class="text-center my-4">Entregables</h3>
+    
+            <div class="row">
+                <!-- Tarjeta 1 -->
+                <div class="octagonal-card" onclick="window.location.href='https://www.ejemplo.com/vendor'">
+                    <img src="https://via.placeholder.com/200" alt="Imagen de fondo">
+                    <div class="octagonal-card-content">
+                        <h4>Vendor Rules</h4>
+                        <p>10</p>
+                    </div>
+                </div>
+    
+                <!-- Tarjeta 2 -->
+                <div class="octagonal-card" onclick="window.location.href='https://www.ejemplo.com/custom'">
+                    <img src="https://via.placeholder.com/200" alt="Imagen de fondo">
+                    <div class="octagonal-card-content">
+                        <h4>Custom Rules</h4>
+                        <p>10</p>
+                    </div>
+                </div>
+    
+                <!-- Tarjeta 3 -->
+                <div class="octagonal-card" onclick="window.location.href='https://www.ejemplo.com/third-party'">
+                    <img src="https://via.placeholder.com/200" alt="Imagen de fondo">
+                    <div class="octagonal-card-content">
+                        <h4>Third Party Rules</h4>
+                        <p>5</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+        function toggleRules() {
+            const rulesContainer = document.getElementById('rulesContainer');
+            rulesContainer.style.display = rulesContainer.style.display === 'block' ? 'none' : 'block';
+        }
+
+            // Función para mostrar/ocultar la tabla
+        function toggleAlerts() {
+            const alertsContainer = document.getElementById('alertsContainer');
+            alertsContainer.style.display = alertsContainer.style.display === 'block' ? 'none' : 'block';
+        }
+
+            // Función para mostrar/ocultar la tabla de semáforos
+        function toggleSemaphores() {
+            const semaphoresContainer = document.getElementById('semaphoresContainer');
+            semaphoresContainer.style.display = semaphoresContainer.style.display === 'block' ? 'none' : 'block';
+        }
+
+
+        // function toggleSemaphores() {
+        // var container = document.getElementById('semaphoresContainer');
+        // if (container.style.display === 'none' || container.style.display === '') {
+        //     container.style.display = 'block';
+        // } else {
+        //     container.style.display = 'none';
+        // }
+        // }
+
+        
+
+        // Datos de asistencia organizados por mes
+        const asistenciaPorMes = {
+            'Junio': { dias: ['Jueves 27'], cantidad: 1 },
+            'Julio': { dias: ['Miércoles 3', 'Viernes 12', 'Jueves 25'], cantidad: 3 },
+            'Agosto': { dias: ['Jueves 8', 'Lunes 26'], cantidad: 2 },
+            'Septiembre': { dias: ['Lunes 9', 'Martes 10'], cantidad: 2 }
+        };
+
+        // Extraer los nombres de los meses para las etiquetas (labels)
+        const labels = Object.keys(asistenciaPorMes);
+
+        // Extraer las cantidades de asistencia por mes
+        const dataAsistencia = Object.values(asistenciaPorMes).map(mes => mes.cantidad);
+
+        // Crear los labels personalizados que muestren los días asistidos en cada mes
+        const diasAsistidos = Object.values(asistenciaPorMes).map(mes => mes.dias.join(', '));
+
+        // Configurar los datos del gráfico
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Asistencias por Mes',
+                data: dataAsistencia,
+                backgroundColor: 'rgba(0, 123, 255, 0.5)', // Color azul claro
+                borderColor: 'rgba(0, 123, 255, 1)', // Color azul
+                borderWidth: 1
+            }]
+        };
+
+        // Configurar el gráfico
+        const config = {
+            type: 'bar',
+            data: data,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1,
+                            precision: 0
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            afterLabel: function(context) {
+                                const index = context.dataIndex;
+                                return 'Días asistidos: ' + diasAsistidos[index];
+                            }
+                        }
+                    },
+                    legend: {
+                        display: false
+                    }
+                },
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        };
+
+        // Inicializar el gráfico
+        const asistenciaChart = new Chart(
+            document.getElementById('asistenciaChart'),
+            config
+        );
+    </script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+<!-- Footer -->
+<footer class="footer bg-light py-4 mt-5">
+    <div class="container">
+        <div class="row">
+            <!-- Sección de enlaces -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <h5 class="text-dark">Enlaces</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#!" class="text-dark">Inicio</a></li>
+                    <li><a href="#!" class="text-dark">Sobre nosotros</a></li>
+                    <li><a href="#!" class="text-dark">Servicios</a></li>
+                    <li><a href="#!" class="text-dark">Contacto</a></li>
+                </ul>
+            </div>
+
+            <!-- Sección de contacto -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <h5 class="text-dark">Contáctanos</h5>
+                <p class="text-dark">
+                    Dirección: Calle Ejemplo 123, Ciudad<br>
+                    Teléfono: +34 123 456 789<br>
+                    Email: contacto@ejemplo.com
+                </p>
+            </div>
+
+            <!-- Sección de redes sociales -->
+            <div class="col-lg-4 col-md-12 mb-4">
+                <h5 class="text-dark">Síguenos</h5>
+                <a href="#!" class="text-dark mx-2"><img src="https://via.placeholder.com/24" alt="Facebook"></a>
+                <a href="#!" class="text-dark mx-2"><img src="https://via.placeholder.com/24" alt="Twitter"></a>
+                <a href="#!" class="text-dark mx-2"><img src="https://via.placeholder.com/24" alt="Instagram"></a>
+                <a href="#!" class="text-dark mx-2"><img src="https://via.placeholder.com/24" alt="LinkedIn"></a>
+            </div>
+        </div>
+
+        <!-- Sección de copyright -->
+        <div class="text-center mt-4">
+            <p class="text-dark">&copy; 2024 Tu Empresa. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</footer>
+
+<style>
+    /* Footer personalizado */
+    .footer {
+        background-color: #f8f9fa; /* Fondo gris claro */
+        color: #343a40; /* Texto oscuro */
+        box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil en el borde superior */
+    }
+
+    .footer h5 {
+        font-size: 18px;
+        color: #343a40;
+        font-weight: bold;
+    }
+
+    .footer p, .footer a {
+        font-size: 14px;
+        color: #343a40;
+    }
+
+    .footer a:hover {
+        text-decoration: none;
+        color: #007bff; /* Color de enlace hover */
+    }
+
+    .footer img {
+        width: 24px;
+        height: 24px;
+    }
+
+    /* Responsivo */
+    @media (max-width: 768px) {
+        .footer .col-lg-4 {
+            text-align: center;
+        }
+    }
+</style>
+
+</html>
