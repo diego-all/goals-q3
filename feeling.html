@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Situaciones y Protagonistas</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>¿Cómo me senti en Q3?</h1>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Situación</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Me siento oxidado, siento escasas posibilidades de aplicar conocimientos en seguridad informática. <b>(Gestión de amenazas o del control principalmente)</b></td>
+                    <td> * Creatividad con el Workshop de Falco, tiene un matiz de pentest demo y alto grado de awareness. <br>
+                        * Incorporar reglas de terceros y avances en investigación de capabilities nuevas de Falco.
+                    </td> 
+
+                </tr>
+                <tr>
+                    <td>Fue pesado para Sebastián y mi persona.</td>
+                    <td>Para efectos de cumplimiento no utilice días de estudio.</td>
+                </tr>
+                <tr>
+                    <td>No hubo asignación relacionada a actividades de desarrollo.</td>
+                    <td>El Workshop de Falco automatiza comportamientos sospechosos y/o maliciosos (CLI - Interactive awareness). Falco Custom Rules Catalog y Falco Rules Activity Report son codificados.</td>
+                </tr>
+                <tr>
+                    <td>Goals en SSFF subjetivos y variables.</td>
+                    <td>Propongo revisión de Goals anuales.</td>
+                </tr>
+                <tr>
+                    <td>Ambigüedad con la prioridad de integración con bee.</td>
+                    <td>Propongo revisión de esta situación.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="summary">
+            <h2>Resumen</h2>
+            <p>
+                <!-- Aquí se puede agregar un resumen de las situaciones y las propuestas mencionadas. -->
+                <b>En resumen, ante las escasas posibilidades para aplicar conocimientos en seguridad informática y desarrollo, especialmente en en temas técnicos relacionados a vulnerabilidades en contenedores y Kubernetes. El Workshop de Falco ha sido un punto positivo, aportando creatividad y concientización, aunque algunas metas y prioridades presentan ambigüedades y subjetividad. Se proponen revisiones de estas metas, así como una mayor integración de reglas para aumentar el coverage y nuevas capabilities de Falco.</b>
+            </p>
+        </div>
+
+        <canvas id="myChart" width="400" height="200"></canvas>
+    </div>
+
+    <!-- <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    'Situación 1', 'Situación 2', 'Situación 3', 
+                    'Situación 4', 'Situación 5', 'Situación 6'
+                ],
+                datasets: [{
+                    label: 'Oportunidades de Mejora',
+                    data: [3, 2, 1, 1, 2, 1], // Ejemplo de datos
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(255, 206, 86, 0.6)',
+                        'rgba(153, 102, 255, 0.6)',
+                        'rgba(255, 159, 64, 0.6)',
+                        'rgba(201, 203, 207, 0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(201, 203, 207, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Impacto Relativo'
+                        }
+                    }
+                }
+            }
+        });
+    </script> -->
+</body>
+</html>
