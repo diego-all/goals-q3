@@ -74,7 +74,7 @@
         }
         .chart-container {
             position: relative;
-            width: 50%; /* Reducido a la mitad */
+            width: 40%; /* Reducido a la mitad */
             margin: auto;
         }
 
@@ -136,28 +136,242 @@
             </div>
         </div>
 
-
-    Sinergias
-
-
-
-    Comunicacion asertiva  
-
-
     <div style="text-align: center; margin-top: 20px;">
-        <h3 style="color: #75b6b6; font-weight: bold;">¿Como me siento?</h3>
+        <h3 style="color: #75b6b6; font-weight: bold;">Sinergias</h3>
         <p style="font-size: 14px;"> <b>Criterio:</b> Implementar 6 semáforos de detección de anomalías en Kubernetes basados en Falco.</p>
-        <p>Oxidado</p>
+        <p>Loren ipsum</p>
     </div>
 
     <h4 class="text-center my-3">Sinergias</h4>
     <div class="chart-container">
         <canvas id="radarChart"></canvas>
     </div>
+
+    <div class="container">
+        <h4 class="text-center my-3">Resultados Sinergias</h4>
+        <button class="btn btn-primary btn-custom" id="toggleButtonSinergias" onclick="toggleSinergias()">Resultados Sinergias</button>
+    
+        <div class="table-container" id="sinergiasContainer" style="display: none;">
+            <table class="table table-bordered custom-table">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Iniciativa</th>
+                        <th>Resultados</th>
+                        <th>Personas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>IRT</td>
+                        <td>* Workshop de Falco<br>* Eventos de Falco</td>
+                        <td>* Detectors team<br>* Miguel Larreal</td>
+                    </tr>
+                    <tr>
+                        <td>WebSec</td>
+                        <td>* PoC Vulnerabilidad CVE-2023-3079<br>* Custom Rule para CVE-2023-3079<br>* Pertinencia Regla Custom Fuzzing<br>* Sesión en shell para vulnerabilidad</td>
+                        <td>* BenHur Santos<br>* Fabrizio Fazziani<br>* Daniel Correa<br>* Felipe Restrepo</td>
+                    </tr>
+                    <tr>
+                        <td>Crypto</td>
+                        <td>* Cluster Admins Database<br>* Falco Events Introduction</td>
+                        <td>* Andrea Liz Moreno</td>
+                    </tr>
+                    <tr>
+                        <td>CloudSec (KISS)</td>
+                        <td>* Falco Custom Rules Catalog<br>* Workshop de Falco</td>
+                        <td>* Francisco (Pancho) <br>* Domingo Gil</td>
+                    </tr>
+                    <tr>
+                        <td>DataSec</td>
+                        <td>* Middleware Bee<br>* Skip duplicates bee</td>
+                        <td>* Cristian Jesus<br>* Anderson</td>
+                    </tr>
+                    <tr>
+                        <td>InfraSec</td>
+                        <td>* mhunt like Kernel module<br>* Sigma Rules for Falco Custom Rules</td>
+                        <td>* Santiago Alvarez</td>
+                    </tr>
+                    <tr>
+                        <td>Serverless</td>
+                        <td>* Flujo en bee para Falco</td>
+                        <td>* Yair Frontera</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>  
+
+
+    <!-- <div style="text-align: center; margin-top: 20px;">
+        <h3 style="color: #75b6b6; font-weight: bold;">Comunicacion asertiva</h3>
+        <p style="font-size: 14px;"> <b>Criterio:</b> Evaluo la asertividad utilizando un test de la universidad cooperativa https://repository.ucc.edu.co/server/api/core/bitstreams/02241448-f113-4d80-8a34-3204f9bec45e/content.</p>
+        <p>Oxidado</p>
+    </div> -->
+
+    <div style="text-align: center; margin-top: 20px;">
+        <h3 style="color: #75b6b6; font-weight: bold;">Test de Comunicación Asertiva</h3>
+        <p style="font-size: 14px;"><b>Criterio:</b> Responde a las siguientes afirmaciones para valorar tu capacidad asertiva. Escribe un 3 si la respuesta es siempre, un 2 si la respuesta es a veces, y 1 si la respuesta es Nunca. Al terminar suma los puntajes de cada columna y consulta la tabla de resultado.</p>
+    </div>
     
     <div class="container">
-        <h4 class="text-center my-3">¿Cómo me siento?</h4>
-        <button class="btn btn-primary btn-custom" id="toggleButton" onclick="toggleSemaphores()">¿Cómo me siento?</button>
+        <h4 class="text-center my-3">Comunicación Asertiva</h4>
+        <button class="btn btn-primary btn-custom" id="toggleButtonAsertiva" onclick="toggleAsertiva()">Test de Comunicación Asertiva</button>
+    
+        <div class="table-container" id="asertivaContainer" style="display: none;">
+            <table class="table table-bordered custom-table">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Pregunta</th>
+                        <th>Siempre</th>
+                        <th>A veces</th>
+                        <th>Nunca</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1. Puedo halagar sin dificultad a un compañero, un amigo o un miembro de mi familia.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>2. Puedo expresar mis sentimientos abiertamente.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>3. Puedo admitir haber cometido un error.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>4. Puedo pedir una aclaración sin dificultad.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>5. Puedo decir “no” cuando alguien me pide algo injusto.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>6. Puedo decir a la gente que no me gusta su comportamiento.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>7. Puedo responder con asertividad a una humillación verbal.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>8. Puedo responder con firmeza cuando alguien valora mis ideas.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>9. Puedo decir a la gente cuánto me ha ofendido.</td>
+                        <td>2</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>10. Sé que decir cuando recibo un halago.</td>
+                        <td>2</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>11. Puedo elegir mi propio estilo de vida aunque los demás difieran.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>12. Puedo mantener contacto visual cuando expreso mis sentimientos, deseos y necesidades.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>13. Cuando me enfado puedo expresarme sin demostrar mi irritación, mi frustración o mi decepción.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>14. Puedo proceder ante los conflictos de forma constructiva.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>15. Puedo pedir ayuda a los demás.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>16. Puedo expresar mis discrepancias y opiniones sin dificultad.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>17. Puedo pedir una aclaración acerca de una expresión no verbal.</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>18. Utilizo afirmaciones en primera persona en vez de en segunda.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>19. Puedo aceptar los halagos.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>20. Siento confianza en mis capacidades.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div style="margin-top: 20px;">
+            <h5 style="color: #75b6b6; font-weight: bold; text-align: center;">Resultado: 55 puntos</h5>
+            <p>Es normalmente asertivo. En algunas situaciones tiendes a serlo de forma natural, pero tal vez desees desarrollar tus capacidades adicionales.</p>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <h3 style="color: #75b6b6; font-weight: bold;">¿Como me siento?</h3>
+        <p style="font-size: 14px;"> <b>Criterio:</b> Implementar 6 semáforos de detección de anomalías en Kubernetes basados en Falco.</p>
+        <p style="font-size: 28px;"> <b>Oxidado</b></p>
+        
+        <!-- Imagen centrada debajo del texto "Oxidado" -->
+        <div style="text-align: center;">
+            <img src="assets/oxidado.jpeg" alt="Descripción de la imagen" style="max-width: 100%; height: auto;">
+        </div>
+    </div>
+    
+    
+    <div class="container">
+        <button class="btn btn-primary btn-custom" id="toggleButton" onclick="toggleSemaphores()">Situación vs Protagonismo</button>
     
         <div class="table-container" id="semaphoresContainer">
             <table class="table table-bordered custom-table">
@@ -192,8 +406,23 @@
                     </tr>
                 </tbody>
             </table>
+
         </div>
+
+        <div class="summary" style="text-align: center; margin: 0 auto; max-width: 800px;">
+            <h2>Resumen</h2>
+            <p>
+                <!-- Aquí se puede agregar un resumen de las situaciones y las propuestas mencionadas. -->
+                <b>En resumen, ante las escasas posibilidades para aplicar conocimientos en seguridad informática y desarrollo, especialmente en temas técnicos relacionados a vulnerabilidades en contenedores y Kubernetes. El Workshop de Falco ha sido un punto positivo, aportando creatividad y concientización, aunque algunas metas y prioridades presentan ambigüedades y subjetividad. Se proponen revisiones de estas metas, así como una mayor incorporación de reglas para aumentar el coverage y nuevas capabilities de Falco.</b>
+            </p>
+        </div>
+        <div style="text-align: center;">
+            <img src="assets/diome.jpeg" alt="Descripción de la imagen" style="max-width: 100%; height: auto;">
+        </div>
+        
     </div>
+
+
 
 
     </div>
@@ -204,6 +433,18 @@
         function toggleSemaphores() {
             const semaphoresContainer = document.getElementById('semaphoresContainer');
             semaphoresContainer.style.display = semaphoresContainer.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Función para mostrar/ocultar la tabla de sinergias
+        function toggleSinergias() {
+            const sinergiasContainer = document.getElementById('sinergiasContainer');
+            sinergiasContainer.style.display = sinergiasContainer.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Función para mostrar/ocultar la tabla de comunicación asertiva
+        function toggleAsertiva() {
+            const asertivaContainer = document.getElementById('asertivaContainer');
+            asertivaContainer.style.display = asertivaContainer.style.display === 'block' ? 'none' : 'block';
         }
 
 
@@ -289,7 +530,7 @@
                 labels: ['IRT', 'WebSec', 'Crypto', 'CloudSec (KISS)', 'Datasec', 'Infrasec', 'Serverless'],
                 datasets: [{
                     label: 'Efectividad de Sinergias Q3',
-                    data: [90, 90, 70, 90, 55, 90, 85], // Valores de efectividad
+                    data: [90, 90, 70, 90, 60, 90, 85], // Valores de efectividad
                     backgroundColor: [
                         'rgba(117, 182, 182, 0.5)',
                         'rgba(255, 99, 132, 0.5)',
