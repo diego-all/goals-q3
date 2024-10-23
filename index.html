@@ -301,7 +301,7 @@
     <div class="container">
         <div class="title-section">
             <img src="assets/GothicD.png" alt="Imagen de Falco" class="title-image">
-            <h1 class="title-text">Dashboard Goals Q3</h1>
+            <h1 class="title-text">Q3 Goals Dashboard</h1>
             <img src="assets/mercado-libre.png" alt="Imagen de Mercado Libre" class="title-image">
         </div>
         <h3 class="text-center my-4">Diego Alejandro Posada Llano</h3>
@@ -492,7 +492,12 @@
         <div style="text-align: center; margin-top: 20px;">
             <h3 style="color: #75b6b6; font-weight: bold;">Integración alertas de Falco con Bee</h3>
             <p style="font-size: 14px;">Criterio: Llevar a produccion entre 3 alertas o 7 a test</p>
-            <p>El gráfico muestra la cantidad de asistencias registradas cada mes. Cada asistencia corresponde a un encuentro realizado durante el sprint.</p>
+            <p>
+
+                <li>Se llevan 7 alertas a test. Datasec no aprueba el PR debido al alto nivel de ruido.</li>
+                <li>Se implementa skip-Duplicates para reducir eventos redundantes en el middleware de bee para todas las alertas en test.</li>
+                <li>A la espera de recibir base de datos de administradores por cluster desde crypto.</li>
+            </p>
         </div>
 
         <div class="container">
@@ -691,7 +696,8 @@
             'Junio': { dias: ['Jueves 27'], cantidad: 1 },
             'Julio': { dias: ['Miércoles 3', 'Viernes 12', 'Jueves 25'], cantidad: 3 },
             'Agosto': { dias: ['Jueves 8', 'Lunes 26'], cantidad: 2 },
-            'Septiembre': { dias: ['Lunes 9', 'Martes 10'], cantidad: 2 }
+            'Septiembre': { dias: ['Lunes 9', 'Martes 10'], cantidad: 2 },
+            'Octubre': { dias: ['Jueves 9', 'Jueves 24'], cantidad: 2 }
         };
 
         // Extraer los nombres de los meses para las etiquetas (labels)
