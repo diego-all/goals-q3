@@ -100,11 +100,12 @@
     <br>
 
 
+
     <div class="container">
         <div class="title-section">
-            <img src="assets/GothicD.png" alt="Imagen de Falco" class="title-image">
+            <img src="https://i.ibb.co/7zDr5FF/GothicD.png" alt="Imagen de Falco" class="title-image">
             <h1 class="title-text">Q3 Recommendations Dashboard</h1>
-            <img src="assets/mercado-libre.png" alt="Imagen de Mercado Libre" class="title-image">
+            <img src="https://i.ibb.co/MMcNN7t/mercado-libre.jpg" alt="Imagen de Mercado Libre" class="title-image">
         </div>
         <h3 class="text-center my-4">Diego Alejandro Posada Llano</h3>
         <h7 class="date-text"><b>October 21, 2024</b></h7>
@@ -121,7 +122,7 @@
 
         <div style="text-align: center; margin-top: 20px;">
             <h3 style="color: #75b6b6; font-weight: bold;">Asistencia por Mes</h3>
-            <p style="font-size: 14px;">Criterio: 1 vez por sprint</p>
+            <p style="font-size: 14px;"><b>Criterio:</b> 1 vez por sprint</p>
             <p>El gráfico muestra la cantidad de asistencias registradas cada mes. Cada asistencia corresponde a un encuentro realizado durante el sprint.</p>
         </div>
         
@@ -138,11 +139,10 @@
 
     <div style="text-align: center; margin-top: 20px;">
         <h3 style="color: #75b6b6; font-weight: bold;">Sinergias</h3>
-        <p style="font-size: 14px;"> <b>Criterio:</b> Implementar 6 semáforos de detección de anomalías en Kubernetes basados en Falco.</p>
-        <p>Loren ipsum</p>
+        <p style="font-size: 14px;"> <b>Criterio:</b> Evaluar las sinergias realizadas con diversas áreas con base a los resultados obtenidos.</p>
     </div>
 
-    <h4 class="text-center my-3">Sinergias</h4>
+    <!-- <h4 class="text-center my-3">Sinergias</h4> -->
     <div class="chart-container">
         <canvas id="radarChart"></canvas>
     </div>
@@ -151,7 +151,7 @@
         <h4 class="text-center my-3">Resultados Sinergias</h4>
         <button class="btn btn-primary btn-custom" id="toggleButtonSinergias" onclick="toggleSinergias()">Resultados Sinergias</button>
     
-        <div class="table-container" id="sinergiasContainer" style="display: none;">
+        <div class="table-container" id="sinergiasContainer" style="display: block;">
             <table class="table table-bordered custom-table">
                 <thead class="thead-light">
                     <tr>
@@ -202,22 +202,26 @@
     </div>  
 
 
-    <!-- <div style="text-align: center; margin-top: 20px;">
-        <h3 style="color: #75b6b6; font-weight: bold;">Comunicacion asertiva</h3>
-        <p style="font-size: 14px;"> <b>Criterio:</b> Evaluo la asertividad utilizando un test de la universidad cooperativa https://repository.ucc.edu.co/server/api/core/bitstreams/02241448-f113-4d80-8a34-3204f9bec45e/content.</p>
-        <p>Oxidado</p>
-    </div> -->
-
     <div style="text-align: center; margin-top: 20px;">
-        <h3 style="color: #75b6b6; font-weight: bold;">Test de Comunicación Asertiva</h3>
-        <p style="font-size: 14px;"><b>Criterio:</b> Responde a las siguientes afirmaciones para valorar tu capacidad asertiva. Escribe un 3 si la respuesta es siempre, un 2 si la respuesta es a veces, y 1 si la respuesta es Nunca. Al terminar suma los puntajes de cada columna y consulta la tabla de resultado.</p>
+        <h3 style="color: #75b6b6; font-weight: bold;">Comunicación Asertiva</h3>
+        
+        <!-- Primer criterio en texto normal -->
+        <p style="font-size: 14px;"><b>Criterio:</b> Evaluo la asertividad utilizando un test de la Universidad Cooperativa de Colombia. 
+           <a href="https://repository.ucc.edu.co/server/api/core/bitstreams/02241448-f113-4d80-8a34-3204f9bec45e/content" target="_blank" style="color: #75b6b6; text-decoration: underline;">Ver documento original</a>.
+        </p>
+        
+        <!-- Segundo criterio resaltado en rojo -->
+        <p style="font-size: 14px; color: black; font-weight: bold;">
+            Responde a las siguientes afirmaciones para valorar tu capacidad asertiva. Escribe un 3 si la respuesta es "Siempre", un 2 si la respuesta es "A veces", y un 1 si la respuesta es "Nunca". 
+            Al terminar, suma los puntajes de cada columna y consulta la tabla de resultado.
+        </p>
     </div>
     
     <div class="container">
-        <h4 class="text-center my-3">Comunicación Asertiva</h4>
+        <h4 class="text-center my-3"></h4>
         <button class="btn btn-primary btn-custom" id="toggleButtonAsertiva" onclick="toggleAsertiva()">Test de Comunicación Asertiva</button>
     
-        <div class="table-container" id="asertivaContainer" style="display: none;">
+        <div class="table-container" id="asertivaContainer" style="display: block;">
             <table class="table table-bordered custom-table">
                 <thead class="thead-light">
                     <tr>
@@ -278,15 +282,15 @@
                     </tr>
                     <tr>
                         <td>9. Puedo decir a la gente cuánto me ha ofendido.</td>
-                        <td>2</td>
                         <td></td>
+                        <td>2</td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>10. Sé que decir cuando recibo un halago.</td>
-                        <td>2</td>
                         <td></td>
                         <td></td>
+                        <td>1</td>
                     </tr>
                     <tr>
                         <td>11. Puedo elegir mi propio estilo de vida aunque los demás difieran.</td>
@@ -326,9 +330,9 @@
                     </tr>
                     <tr>
                         <td>17. Puedo pedir una aclaración acerca de una expresión no verbal.</td>
+                        <td></td>
+                        <td></td>
                         <td>1</td>
-                        <td></td>
-                        <td></td>
                     </tr>
                     <tr>
                         <td>18. Utilizo afirmaciones en primera persona en vez de en segunda.</td>
@@ -365,15 +369,14 @@
         
         <!-- Imagen centrada debajo del texto "Oxidado" -->
         <div style="text-align: center;">
-            <img src="assets/oxidado.jpeg" alt="Descripción de la imagen" style="max-width: 100%; height: auto;">
+            <img src="https://i.ibb.co/NVVX9G6/oxidado.jpg" alt="Descripción de la imagen" style="max-width: 100%; height: auto;">
         </div>
-    </div>
-    
+    </div> 
     
     <div class="container">
         <button class="btn btn-primary btn-custom" id="toggleButton" onclick="toggleSemaphores()">Situación vs Protagonismo</button>
     
-        <div class="table-container" id="semaphoresContainer">
+        <div class="table-container" id="semaphoresContainer" style="display: block;">
             <table class="table table-bordered custom-table">
                 <thead class="thead-light">
                     <tr>
@@ -412,13 +415,6 @@
 
         <div style="text-align: center; margin-top: 20px;">
             <h3 style="color: #75b6b6; font-weight: bold;">Sugerencias hacia el lider</h3>
-            <!-- <p style="font-size: 14px;"> <b>Criterio:</b> Implementar 6 semáforos de detección de anomalías en Kubernetes basados en Falco.</p> -->
-            <!-- <p style="font-size: 28px;"> <b>Oxidado</b></p> -->
-            
-            <!-- Imagen centrada debajo del texto "Oxidado" -->
-            <!-- <div style="text-align: center;">
-                <img src="assets/oxidado.jpeg" alt="Descripción de la imagen" style="max-width: 100%; height: auto;">
-            </div> -->
 
         <!-- Recomendaciones para el equipo -->
             <div class="recommendations">
@@ -427,6 +423,8 @@
                 <p>💬 <em>"Cuanto más escuchas, más comprendes; y cuanto más comprendes, mejor puedes comunicarte."</em></p>
                 <p>✅ Tener en cuenta las aspiraciones profesionales del empleado al elevar la vara del equipo, promoviendo así el crecimiento de cada miembro.</p>
                 <p>✅ Se han logrado revertir muchas situaciones y aportarle mas al equipo, vamos por el camino correcto. </p>
+                <p>✅ Las actividades en las que no se aplican los conocimientos de seguridad informática se limitan a una seguridad solo de palabra <b>(seguridad oral)</b>, lo que disminuye las posibilidades de crecimiento profesional.</p>
+                <p>✅ Hace casi 3 años estoy en Mercado Libre y solo he estado en Falco activamente. Aspiro impulsarme (crecer) en desarrollo en Golang (Backend developer) como fue propuesto en el offer y seguridad informatica aplicada, me siento saturado de la gestión de amenazas.</p>
             </div>
 
         </div>
@@ -439,12 +437,14 @@
             <h2>Resumen</h2>
             <p>
                 <!-- Aquí se puede agregar un resumen de las situaciones y las propuestas mencionadas. -->
-                <b> El Workshop de Falco ha sido un aporte positivo, promoviendo creatividad y conciencia en temas de seguridad. He decidido incorporar las community rules para explorar y aumentar la cobertura y capacidades de Falco. Propongo realizar revisiones y ajustes en las metas que lo requieran, en particular para la integración con Bee. En resumen, me gustaría aplicar los conocimientos adquiridos en seguridad informática y desarrollo, especialmente en aspectos técnicos relacionados con vulnerabilidades en contenedores y Kubernetes, además de ciertas prácticas ofensivas. Como resultado de este enfoque, he creado reglas personalizadas.</b>
+                <b> El Workshop de Falco ha sido un aporte positivo, promoviendo creatividad y conciencia en temas de seguridad. He decidido incorporar las community rules para explorar y aumentar la cobertura y capacidades de Falco. Propongo realizar revisiones y ajustes en las metas que lo requieran, en particular para la integración con Bee. En resumen, me gustaría aplicar los conocimientos adquiridos en seguridad informática y desarrollo, especialmente en aspectos técnicos relacionados con vulnerabilidades en contenedores y Kubernetes, además de ciertas prácticas ofensivas y malware que permitan mejorar las detecciones de Falco. Como resultado de este enfoque, he creado reglas personalizadas y el workshop interactivo.</b>
             </p>
         </div>
         <div style="text-align: center;">
-            <img src="assets/diome.jpeg" alt="Descripción de la imagen" style="max-width: 100%; height: auto;">
+            <img src="https://i.postimg.cc/j2zkd3kJ/diome.jpg" alt="Descripción de la imagen" style="max-width: 100%; height: 100;">
+            <!-- I use other image server because image width -->
         </div>
+
         
     </div>
 
@@ -481,7 +481,8 @@
             'Julio': { dias: ['Miércoles 3', 'Viernes 12', 'Jueves 25'], cantidad: 3 },
             'Agosto': { dias: ['Jueves 8', 'Lunes 26'], cantidad: 2 },
             'Septiembre': { dias: ['Lunes 9', 'Martes 10'], cantidad: 2 },
-            'Octubre': { dias: ['Jueves 9', 'Jueves 24'], cantidad: 2 }
+            'Octubre': { dias: ['Jueves 9', 'Jueves 24'], cantidad: 2 },
+            'Noviembre': { dias: ['Jueves 7'], cantidad: 1 }
         };
 
         // Extraer los nombres de los meses para las etiquetas (labels)
