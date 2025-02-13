@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Asistencia al Trabajo</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+            /* Resto de estilos */
+            .title-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .title-text {
+            flex-grow: 1;
+            text-align: center;
+            font-size: 48px;
+            font-weight: bold;
+            color: #343a40; /* Color del título */
+        }
+        .title-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+
+        .date-text {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+        .metric-card {
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f8f9fa; /* Color gris claro */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center; /* Centrar contenido */
+        }
+        .metric-header {
+            color: #343a40; /* Color de texto más oscuro */
+        }
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff; /* Color azul para los valores */
+            margin: 10px 0; /* Margen superior e inferior */
+        }
+        .chart-container {
+            position: relative;
+            height: 200px; /* Altura ajustada para la gráfica */
+            margin: 20px auto; /* Centrar gráfica */
+            max-width: 600px; /* Ancho máximo para la gráfica */
+        }
+        .rules-container {
+            display: block;
+            /* display: none; Ocultar por defecto */
+            margin-top: 20px;
+        }
+        .rules-list {
+            display: flex;
+            justify-content: space-between;
+        }
+        .rule {
+            padding: 10px;
+            background-color: #e9ecef; /* Color gris más claro */
+            border-radius: 8px;
+            margin: 5px;
+        }
+        /* Estilos de la tarjeta circular */
+        .circular-card {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            background-color: #f8f9fa; /* Color gris claro */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin: 20px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .circular-card:hover {
+            transform: scale(1.05); /* Efecto de agrandamiento al pasar el ratón */
+        }
+
+        /* Imagen de fondo */
+        .circular-card img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+        }
+
+        /* Contenido de la tarjeta */
+        .circular-card-content {
+            z-index: 2;
+            color: #343a40;
+        }
+
+        .circular-card h4 {
+            font-size: 18px;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .circular-card p {
+            font-size: 24px;
+            color: #fff;
+            font-weight: bold;
+            margin: 10px 0;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Alineación de las tarjetas */
+        .row {
+            display: flex;
+            justify-content: center;
+        }
+
+
+        /* Estilos de la tarjeta en forma de rombo */
+        .diamond-card {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            margin: 20px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .diamond-card:before,
+        .diamond-card:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%) rotate(45deg);
+            width: 200px;
+            height: 200px;
+            background-color: #f8f9fa; /* Color gris claro */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            opacity: 0.8;
+            transition: transform 0.3s;
+        }
+
+        .diamond-card:hover:before,
+        .diamond-card:hover:after {
+            transform: translateX(-50%) rotate(45deg) scale(1.05); /* Efecto de agrandamiento al pasar el ratón */
+        }
+
+        .diamond-card img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.5;
+            border-radius: 8px; /* Para suavizar los bordes */
+        }
+
+        /* Contenido de la tarjeta */
+        .diamond-card-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 2;
+            color: #343a40;
+        }
+
+        .diamond-card h4 {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .diamond-card p {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        /* Alineación de las tarjetas */
+        .row {
+            display: flex;
+            justify-content: center;
+        }
+
+        .table-container {
+            display: block;
+            /* display: none; Oculta la tabla por defecto */
+            margin-top: 20px;
+        }
+        .btn-custom {
+            margin: 20px auto; /* Centra el botón */
+            display: block; /* Para que el margen funcione */
+        }
+        /* Estilo personalizado para la tabla */
+        .custom-table {
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .custom-table th, .custom-table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+                /* Estilos de la tarjeta octagonal */
+                .octagonal-card {
+            width: 200px;
+            height: 200px;
+            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+            overflow: hidden;
+            background-color: #f8f9fa; /* Color gris claro */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin: 20px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .octagonal-card:hover {
+            transform: scale(1.05); /* Efecto de agrandamiento al pasar el ratón */
+        }
+
+        /* Imagen de fondo */
+        .octagonal-card img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+        }
+
+        /* Contenido de la tarjeta */
+        .octagonal-card-content {
+            z-index: 2;
+            color: #343a40;
+        }
+
+        .octagonal-card h4 {
+            font-size: 18px;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .octagonal-card p {
+            font-size: 24px;
+            color: #fff;
+            font-weight: bold;
+            margin: 10px 0;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Alineación de las tarjetas */
+        .row {
+            display: flex;
+            justify-content: center;
+        }
+
+        footer {
+            background-color: #000000;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+        footer img {
+            max-width: 100px;
+            margin-bottom: 10px;
+        }
+        footer p {
+            margin: 0;
+        }
+
+    </style>
+</head>
+<body>
+
+    <br>
+
+    <br>
+
+
+    <div class="container">
+        <div class="title-section">
+            <img src="https://i.ibb.co/7zDr5FF/GothicD.png" alt="Imagen de Falco" class="title-image">
+            <h1 class="title-text">Q3 Goals Dashboard</h1>
+            <img src="https://i.ibb.co/MMcNN7t/mercado-libre.jpg" alt="Imagen de Mercado Libre" class="title-image">
+        </div>
+        <h3 class="text-center my-4">Diego Alejandro Posada Llano</h3>
+        <h7 class="date-text"><b>October 21, 2024</b></h7>
+    </div>
+
+
+    <br>
+    
+    <br>
+    <div class="container">
+
+        <!-- <div style="text-align: center; margin-top: 20px;">
+            <h3 style="color: #75b6b6; font-weight: bold;">Asistencia por Mes</h3>
+            <p style="font-size: 14px;"><b>Criterio:</b> 1 vez por sprint.</p>
+            <p>El gráfico muestra la cantidad de asistencias registradas cada mes. Cada asistencia corresponde a un encuentro realizado durante el sprint.</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-12">
+                <div class="metric-card">
+                    <h4 class="metric-header">Asistencia por Mes</h4>
+                    <div class="chart-container">
+                        <canvas id="asistenciaChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+
+        <div style="text-align: center; margin-top: 20px;">
+            <h3 style="color: #75b6b6; font-weight: bold;">Reglas de Falco</h3>
+            <p style="font-size: 14px;"><b>Criterio:</b> Sumar entre 6 y 8 Reglas Custom al baseline.</p>
+            <p> <b>Custom Rules:</b> Reglas personalizadas desarrolladas por el equipo de seguridad para detectar riesgos específicos que no están cubiertos por las reglas estándar de Falco. Se adaptan a las necesidades particulares de la organización y permiten monitorear amenazas específicas en su entorno.</p>
+            <p> <b>Third Party Rules:</b> Reglas creadas por miembros de la comunidad de Falco. A menudo, responden a necesidades comunes y, con el tiempo, pueden ser integradas en la versión oficial de las reglas open source de Falco, fortaleciendo la protección para una amplia variedad de escenarios.</p>
+        </div>
+        
+
+        <div class="row justify-content-center"> <!-- Centrar las tarjetas -->
+
+            <!-- Custom Rules -->
+            <div class="col-md-4">
+                <div class="metric-card">
+                    <h4 class="metric-header">Custom Rules</h4>
+                    <p class="metric-value">7</p>
+                </div>
+            </div>
+
+            <!-- Third Party Rules -->
+            <div class="col-md-4">
+                <div class="metric-card">
+                    <h4 class="metric-header">Third Party Rules</h4>
+                    <p class="metric-value">0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botón para ver reglas -->
+        <div class="text-center">
+            <button class="btn btn-primary" onclick="toggleRules()">Ver reglas</button>
+        </div>
+
+        <!-- Contenedor para las reglas -->
+        <div class="rules-container" id="rulesContainer">
+            <h4 class="text-center my-3">Reglas</h4>
+            <div class="rules-list">
+                <div>
+                    <h5 style="text-align: center;">Reglas Custom</h5>
+                    <div class="rule">experimental 17 - Malicious cURL commands [custom]</div>
+                    <div class="rule">experimental 18 - Container escape behaviors detected inside the container [custom]</div>
+                    <div class="rule">experimental 19 - Container escape behavior based core pattern  [custom]</div>
+                    <div class="rule">experimental 20 - Container escape behavior based binfmt_misc [custom]</div>
+                    <div class="rule">experimental 26 - Web Scanner process detected inside a container [custom]</div>
+                    <div class="rule">experimental 28 - Fuzzy tools detected in container [custom]</div>
+                    <div class="rule">experimental 29 - NoSQL injection behaviors detected inside the container [custom]</div>
+                    <div class="rule">experimental 30 - Launch Advanced Network Toolset in container [custom]</div>
+                </div>
+                <div>
+                    <h5 style="text-align: center;">Reglas Third Party</h5>
+                    <div class="rule">Backdoored library loaded into SSHD</div>
+                    <div class="rule">PTRACE anti-debug attempt</div>
+                    <div class="rule">PTRACE attached to process</div>
+                    <div class="rule">Find AWS Credentials</div>
+                    <div class="rule">Linux Cgroup Container Escape Vulnerability (CVE-2022-4092)</div>
+                    <div class="rule">Execution from /dev/shm</div>
+                    <div class="rule">Suspicious Java Child Processes</div>
+                </div>
+            </div>
+        </div>
+
+
+        <div style="text-align: center; margin-top: 20px;">
+            <h3 style="color: #75b6b6; font-weight: bold;">Workshop interactivo Falco para IRT</h3>
+            <p style="font-size: 14px;"> <b>Objetivo:</b> Instruir al equipo de gestión de incidentes de Mercado Libre (IRT) acerca de las capacidades de Falco Runtime Security y como proceder a realizar las investigaciones ante un evento generado por Falco.</p>
+            <p>  <b>Invitados:</b>
+                Miembros del equipo de gestión de incidentes, observability security entre otros invitados de seguridad informática.
+            </p>
+        </div>
+
+        <div class="container">
+            <h3 class="text-center my-4">Entregables</h3>
+    
+            <div class="row">
+                <!-- Tarjeta 1 -->
+                <div class="circular-card" onclick="window.location.href='https://docs.google.com/presentation/d/1Tcwmnff4NmQFijmVGE5lWihYeockYu1RddeJ2aoozTI/edit#slide=id.g2ec982a19fd_0_27'">
+                    <img src="https://i.ibb.co/FWphrrd/cybertraining.jpg" alt="Imagen de fondo" style="width: 150px; height: 150px;">
+                    <div class="circular-card-content">
+                        <h3 style="color: red;"">Workshop</h3>
+                    </div>
+                </div>
+    
+                <!-- Tarjeta 2 -->
+                <div class="circular-card" onclick="window.location.href='https://www.ejemplo.com/custom'">
+                    <img src="https://i.ibb.co/bJ41fmK/peregrinus.png" alt="Imagen de fondo">
+                    <div class="circular-card-content">
+                        <h3 style="color: red;"">Peregrine</h3>
+                    </div>
+                </div>
+    
+                <!-- Tarjeta 3 -->
+                <div class="circular-card" onclick="window.location.href='https://www.ejemplo.com/third-party'">
+                    <img src="https://i.ibb.co/WH290G4/cyber-documentation.png" alt="Imagen de fondo" style="width: 180px; height: 180px;">
+                    <div class="circular-card-content">
+                        <h3 style="color: red;">Documentation</h3>
+                    </div>
+                </div>
+            </div>
+        </div>  
+
+
+
+        <div style="text-align: center; margin-top: 20px;">
+            <h3 style="color: #75b6b6; font-weight: bold;">Implementación de Semáforos de Seguridad en Kubernetes</h3>
+            <p style="font-size: 14px;"> <b>Criterio:</b> Implementar 6 semáforos de detección de anomalías en Kubernetes basados en Falco.</p>
+            <p>Semáforos implementados que cubren diversos escenarios de seguridad.</p>
+        </div>
+        
+        <div class="container">
+            <h4 class="text-center my-3">Semáforos</h4>
+            <button class="btn btn-primary btn-custom" id="toggleButton" onclick="toggleSemaphores()">Ver Semáforos</button>
+        
+            <div class="table-container" id="semaphoresContainer">
+                <table class="table table-bordered custom-table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Nombre del Semáforo</th>
+                            <th>Descripción</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Directory traversal pattern</td>
+                            <td>Semáforo capaz de detectar escenarios anómalos del tipo directory traversal pattern</td>
+                            <td>PROD</td>
+                        </tr>
+                        <tr>
+                            <td>Exfiltration</td>
+                            <td>Semáforo capaz de detectar escenarios anómalos de exfiltración de datos en los clusters de Kubernetes</td>
+                            <td>PROD</td>
+                        </tr>
+                        <tr>
+                            <td>Lateral movement</td>
+                            <td>Semáforo capaz de detectar escenarios anómalos de movimiento lateral en los clusters de Kubernetes</td>
+                            <td>PROD</td>
+                        </tr>
+                        <tr>
+                            <td>Persistence</td>
+                            <td>Semáforo capaz de detectar escenarios anómalos de persistencia en los clusters de Kubernetes</td>
+                            <td>PROD</td>
+                        </tr>
+                        <tr>
+                            <td>Execution</td>
+                            <td>Semáforo capaz de detectar escenarios anómalos de ejecución de comandos en los clusters de Kubernetes</td>
+                            <td>PROD</td>
+                        </tr>
+                        <tr>
+                            <td>Kernel Module Injection</td>
+                            <td>Semáforo capaz de detectar comportamientos anómalos de inyección en el módulo del kernel</td>
+                            <td>PROD</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div style="text-align: center; margin-top: 20px;">
+            <h3 style="color: #75b6b6; font-weight: bold;">Integración alertas de Falco con Bee</h3>
+            <p style="font-size: 14px;"><b>Criterio:</b> Llevar a produccion entre 3 alertas o 7 a test.</p>
+            <p>
+
+                <li>Se llevan 7 alertas a test. Datasec no aprueba el PR debido al alto nivel de ruido.</li>
+                <li>Se implementa skip-Duplicates para reducir eventos redundantes en el middleware de bee para todas las alertas en test.</li>
+                <li>A la espera de recibir base de datos de administradores por cluster desde crypto.</li>
+            </p>
+        </div>
+
+        <div class="container">
+            <h4 class="text-center my-3">Alertas</h4>
+            <button class="btn btn-primary btn-custom" id="toggleButton" onclick="toggleAlerts()">Ver Alertas</button>
+    
+            <div class="table-container" id="alertsContainer">
+                <table class="table table-bordered custom-table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Estado</th>
+                            <th>Skip-Duplicates</th>
+                            <th>Skip-Duplicates Date</th>
+                            <th>Actor1</th>
+                            <th>Actor2</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>[Falco] Launch Remote File Copy Tools in Container</td>
+                            <td>PROD</td>
+                            <td>PROD</td>
+                            <td>septiembre 13 de 2024</td>
+                            <td>Waiting</td>
+                            <td>Obsec</td>
+                        </tr>
+                        <tr>
+                            <td>[Falco] Read ssh information</td>
+                            <td>TEST</td>
+                            <td>TEST</td>
+                            <td>septiembre 23 de 2024</td>
+                            <td>Waiting</td>
+                            <td>Obsec</td>
+                        </tr>
+                        <tr>
+                            <td>[Falco] Launch Suspicious Network Tool in Container</td>
+                            <td>TEST</td>
+                            <td>TEST</td>
+                            <td>septiembre 23 de 2024</td>
+                            <td>Waiting</td>
+                            <td>Obsec</td>
+                        </tr>
+                        <tr>
+                            <td>[Falco] Netcat Remote Code Execution in Container</td>
+                            <td>TEST</td>
+                            <td>TEST</td>
+                            <td>septiembre 23 de 2024</td>
+                            <td>Waiting</td>
+                            <td>Obsec</td>
+                        </tr>
+                        <tr>
+                            <td>[Falco] Launch Suspicious Network Tool on Host</td>
+                            <td>TEST</td>
+                            <td>TEST</td>
+                            <td>septiembre 23 de 2024</td>
+                            <td>Waiting</td>
+                            <td>Obsec</td>
+                        </tr>
+                        <tr>
+                            <td>[Falco] DB program spawned process</td>
+                            <td>TEST</td>
+                            <td>TEST</td>
+                            <td>septiembre 23 de 2024</td>
+                            <td>Waiting</td>
+                            <td>Obsec</td>
+                        </tr>
+                        <tr>
+                            <td>[Falco] Write below rpm database</td>
+                            <td>TEST</td>
+                            <td>TEST</td>
+                            <td>septiembre 23 de 2024</td>
+                            <td>Waiting</td>
+                            <td>Obsec</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <h3 style="color: #75b6b6; font-weight: bold;">Otros Falco</h3>
+            <p style="font-size: 14px;"><b>Criterio:</b> Realizar o proponer algunas otras iniciativas o actividades que surgen en el dia a dia.</p>
+        </div>
+
+
+        <div class="container">
+            <h3 class="text-center my-4">Entregables</h3>
+    
+            <br>
+
+            <div class="row">
+                <!-- Tarjeta 1 -->
+                <div class="diamond-card" onclick="window.location.href='https://docs.google.com/presentation/d/1Tcwmnff4NmQFijmVGE5lWihYeockYu1RddeJ2aoozTI/edit#slide=id.g2ec982a19fd_0_27'">
+                    <!-- <img src="https://via.placeholder.com/200" alt="Imagen de fondo"> -->
+                    <img src="https://drugmonitoringcentre.org/wp-content/uploads/2021/11/report.png" alt="" style="height: 160px;">
+                    <!-- <img src="/assets/falcoRulesActivityReport.png" alt="Imagen de fondo"> -->
+                    <div class="diamond-card-content">
+                        <h4>Falco Rules Activity Report</h4>
+                    </div>
+                </div>
+    
+                <!-- Tarjeta 2 -->
+                <div class="diamond-card" onclick="window.location.href='https://www.ejemplo.com/custom'">
+                    <!-- <img src="https://via.placeholder.com/200" alt="Imagen de fondo"> -->
+                    <img src="https://cdn.prod.website-files.com/605c9e03d6553a5d82976ce2/66ba447d77ab513aaa3afe58_11068821.png" alt="" style="width: 150px; height: 150px;">
+                    <div class="diamond-card-content">
+                        <h4>Propuesta Dashboard Madurez</h4>
+                    </div>
+                </div>
+    
+                <!-- Tarjeta 3 -->
+                <div class="diamond-card" onclick="window.location.href='https://www.ejemplo.com/third-party'">
+                    <!-- <img src="https://via.placeholder.com/200" alt="Imagen de fondo"> -->
+                    <img src="https://static.vecteezy.com/system/resources/previews/000/421/699/non_2x/vector-documents-icon.jpg" alt="">
+                    <div class="diamond-card-content">
+                        <h4>Inicio RFC Falco en Instancias EC2</h4>
+                    </div> 
+                </div>
+            </div>
+        </div>
+
+
+        
+
+        <div class="container">
+
+            <div style="text-align: center; margin-top: 20px;">
+                <h3 style="color: #75b6b6; font-weight: bold;">Cursos terminados</h3>
+                <p style="font-size: 14px;"><b>Criterio:</b> Finalizar a tiempo los cursos asignados.</p>
+            </div>
+        
+            <div class="row justify-content-center">
+                <!-- Tarjeta 1 -->
+                <div class="card-container text-center">
+                    <div class="octagonal-card" onclick="window.location.href='https://www.ejemplo.com/vendor'">
+                        <img src="https://i.ibb.co/Tc0tCzJ/sarlaft.png" alt="Imagen de fondo" style="width: 230px; height: 230px;">
+                    </div>
+                    <h4>SARLAFT</h4>
+                </div>
+        
+                <!-- Tarjeta 2 -->
+                <div class="card-container text-center">
+                    <div class="octagonal-card" onclick="window.location.href='https://www.ejemplo.com/custom'">
+                        <img src="https://i.ibb.co/hfWYktv/SDLC.jpg" alt="Imagen de fondo" style="width: 150px; height: 150px;">
+                    </div>
+                    <h4>Seguridad <br >en el Ciclo <br> de Desarrollo</h4>
+                </div>
+        
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+        function toggleRules() {
+            const rulesContainer = document.getElementById('rulesContainer');
+            rulesContainer.style.display = rulesContainer.style.display === 'block' ? 'none' : 'block';
+        }
+
+            // Función para mostrar/ocultar la tabla
+        function toggleAlerts() {
+            const alertsContainer = document.getElementById('alertsContainer');
+            alertsContainer.style.display = alertsContainer.style.display === 'block' ? 'none' : 'block';
+        }
+
+            // Función para mostrar/ocultar la tabla de semáforos
+        function toggleSemaphores() {
+            const semaphoresContainer = document.getElementById('semaphoresContainer');
+            semaphoresContainer.style.display = semaphoresContainer.style.display === 'block' ? 'none' : 'block';
+        }
+
+
+        // function toggleSemaphores() {
+        // var container = document.getElementById('semaphoresContainer');
+        // if (container.style.display === 'none' || container.style.display === '') {
+        //     container.style.display = 'block';
+        // } else {
+        //     container.style.display = 'none';
+        // }
+        // }
+
+        
+
+        // Datos de asistencia organizados por mes
+        const asistenciaPorMes = {
+            'Junio': { dias: ['Jueves 27'], cantidad: 1 },
+            'Julio': { dias: ['Miércoles 3', 'Viernes 12', 'Jueves 25'], cantidad: 3 },
+            'Agosto': { dias: ['Jueves 8', 'Lunes 26'], cantidad: 2 },
+            'Septiembre': { dias: ['Lunes 9', 'Martes 10'], cantidad: 2 },
+            'Octubre': { dias: ['Jueves 9', 'Jueves 24'], cantidad: 2 }
+        };
+
+        // Extraer los nombres de los meses para las etiquetas (labels)
+        const labels = Object.keys(asistenciaPorMes);
+
+        // Extraer las cantidades de asistencia por mes
+        const dataAsistencia = Object.values(asistenciaPorMes).map(mes => mes.cantidad);
+
+        // Crear los labels personalizados que muestren los días asistidos en cada mes
+        const diasAsistidos = Object.values(asistenciaPorMes).map(mes => mes.dias.join(', '));
+
+        // Configurar los datos del gráfico
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Asistencias por Mes',
+                data: dataAsistencia,
+                backgroundColor: 'rgba(0, 123, 255, 0.5)', // Color azul claro
+                borderColor: 'rgba(0, 123, 255, 1)', // Color azul
+                borderWidth: 1
+            }]
+        };
+
+        // Configurar el gráfico
+        const config = {
+            type: 'bar',
+            data: data,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1,
+                            precision: 0
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            afterLabel: function(context) {
+                                const index = context.dataIndex;
+                                return 'Días asistidos: ' + diasAsistidos[index];
+                            }
+                        }
+                    },
+                    legend: {
+                        display: false
+                    }
+                },
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        };
+
+        // Inicializar el gráfico
+        const asistenciaChart = new Chart(
+            document.getElementById('asistenciaChart'),
+            config
+        );
+    </script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+<!-- Footer -->
+<footer>
+    <p>Diego Alejandro Posada Llano</p>
+    <p>Cyber Engineer</p>
+    <p>Mercado Libre - Observability Security</p>
+    <p>&copy; 2024</p>
+</footer>
+
+
+
+</html>

@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q3 Recommendations Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Resto de estilos */
+        .title-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .title-text {
+            flex-grow: 1;
+            text-align: center;
+            font-size: 48px;
+            font-weight: bold;
+            color: #343a40; /* Color del título */
+        }
+        .title-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+
+        .date-text {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+
+
+        .table-container {
+            display: none; /* Oculta la tabla por defecto */
+            margin-top: 20px;
+        }
+        .btn-custom {
+            margin: 20px auto; /* Centra el botón */
+            display: block; /* Para que el margen funcione */
+        }
+        /* Estilo personalizado para la tabla */
+        .custom-table {
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .custom-table th, .custom-table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        .metric-card {
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f8f9fa; /* Color gris claro */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center; /* Centrar contenido */
+        }
+        .metric-header {
+            color: #343a40; /* Color de texto más oscuro */
+        }
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff; /* Color azul para los valores */
+            margin: 10px 0; /* Margen superior e inferior */
+        }
+        .chart-container {
+            position: relative;
+            width: 40%; /* Reducido a la mitad */
+            margin: auto;
+        }
+
+        footer {
+            background-color: #000000;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+        footer img {
+            max-width: 100px;
+            margin-bottom: 10px;
+        }
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <br>
+
+    <br>
+
+
+
+    <div class="container">
+        <div class="title-section">
+            <img src="https://i.ibb.co/7zDr5FF/GothicD.png" alt="Imagen de Falco" class="title-image">
+            <h1 class="title-text">Q3 Recommendations Dashboard</h1>
+            <img src="https://i.ibb.co/MMcNN7t/mercado-libre.jpg" alt="Imagen de Mercado Libre" class="title-image">
+        </div>
+        <h3 class="text-center my-4">Diego Alejandro Posada Llano</h3>
+        <h7 class="date-text"><b>October 21, 2024</b></h7>
+    </div>
+
+
+    <br>
+    
+    <br>
+
+
+    <div class="container">
+
+
+        <div style="text-align: center; margin-top: 20px;">
+            <h3 style="color: #75b6b6; font-weight: bold;">Asistencia por Mes</h3>
+            <p style="font-size: 14px;"><b>Criterio:</b> 1 vez por sprint</p>
+            <p>El gráfico muestra la cantidad de asistencias registradas cada mes. Cada asistencia corresponde a un encuentro realizado durante el sprint.</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-12">
+                <div class="metric-card">
+                    <h4 class="metric-header">Asistencia por Mes</h4>
+                    <div class="chart-container">
+                        <canvas id="asistenciaChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <h3 style="color: #75b6b6; font-weight: bold;">Sinergias</h3>
+        <p style="font-size: 14px;"> <b>Criterio:</b> Evaluar las sinergias realizadas con diversas áreas con base a los resultados obtenidos.</p>
+    </div>
+
+    <!-- <h4 class="text-center my-3">Sinergias</h4> -->
+    <div class="chart-container">
+        <canvas id="radarChart"></canvas>
+    </div>
+
+    <div class="container">
+        <h4 class="text-center my-3">Resultados Sinergias</h4>
+        <button class="btn btn-primary btn-custom" id="toggleButtonSinergias" onclick="toggleSinergias()">Resultados Sinergias</button>
+    
+        <div class="table-container" id="sinergiasContainer" style="display: block;">
+            <table class="table table-bordered custom-table">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Iniciativa</th>
+                        <th>Resultados</th>
+                        <th>Personas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>IRT</td>
+                        <td>* Workshop de Falco<br>* Eventos de Falco</td>
+                        <td>* Detectors team<br>* Miguel Larreal</td>
+                    </tr>
+                    <tr>
+                        <td>WebSec</td>
+                        <td>* PoC Vulnerabilidad CVE-2023-3079<br>* Custom Rule para CVE-2023-3079<br>* Pertinencia Regla Custom Fuzzing<br>* Sesión en shell para vulnerabilidad</td>
+                        <td>* BenHur Santos<br>* Fabrizio Fazziani<br>* Daniel Correa<br>* Felipe Restrepo</td>
+                    </tr>
+                    <tr>
+                        <td>Crypto</td>
+                        <td>* Cluster Admins Database<br>* Falco Events Introduction</td>
+                        <td>* Andrea Liz Moreno</td>
+                    </tr>
+                    <tr>
+                        <td>CloudSec (KISS)</td>
+                        <td>* Falco Custom Rules Catalog<br>* Workshop de Falco</td>
+                        <td>* Francisco (Pancho) <br>* Domingo Gil</td>
+                    </tr>
+                    <tr>
+                        <td>DataSec</td>
+                        <td>* Middleware Bee<br>* Skip duplicates bee</td>
+                        <td>* Cristian Jesus<br>* Anderson</td>
+                    </tr>
+                    <tr>
+                        <td>InfraSec</td>
+                        <td>* mhunt like Kernel module<br>* Sigma Rules for Falco Custom Rules</td>
+                        <td>* Santiago Alvarez</td>
+                    </tr>
+                    <tr>
+                        <td>Serverless</td>
+                        <td>* Flujo en bee para Falco</td>
+                        <td>* Yair Frontera</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>  
+
+
+    <div style="text-align: center; margin-top: 20px;">
+        <h3 style="color: #75b6b6; font-weight: bold;">Comunicación Asertiva</h3>
+        
+        <!-- Primer criterio en texto normal -->
+        <p style="font-size: 14px;"><b>Criterio:</b> Evaluo la asertividad utilizando un test de la Universidad Cooperativa de Colombia. 
+           <a href="https://repository.ucc.edu.co/server/api/core/bitstreams/02241448-f113-4d80-8a34-3204f9bec45e/content" target="_blank" style="color: #75b6b6; text-decoration: underline;">Ver documento original</a>.
+        </p>
+        
+        <!-- Segundo criterio resaltado en rojo -->
+        <p style="font-size: 14px; color: black; font-weight: bold;">
+            Responde a las siguientes afirmaciones para valorar tu capacidad asertiva. Escribe un 3 si la respuesta es "Siempre", un 2 si la respuesta es "A veces", y un 1 si la respuesta es "Nunca". 
+            Al terminar, suma los puntajes de cada columna y consulta la tabla de resultado.
+        </p>
+    </div>
+    
+    <div class="container">
+        <h4 class="text-center my-3"></h4>
+        <button class="btn btn-primary btn-custom" id="toggleButtonAsertiva" onclick="toggleAsertiva()">Test de Comunicación Asertiva</button>
+    
+        <div class="table-container" id="asertivaContainer" style="display: block;">
+            <table class="table table-bordered custom-table">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Pregunta</th>
+                        <th>Siempre</th>
+                        <th>A veces</th>
+                        <th>Nunca</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1. Puedo halagar sin dificultad a un compañero, un amigo o un miembro de mi familia.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>2. Puedo expresar mis sentimientos abiertamente.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>3. Puedo admitir haber cometido un error.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>4. Puedo pedir una aclaración sin dificultad.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>5. Puedo decir “no” cuando alguien me pide algo injusto.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>6. Puedo decir a la gente que no me gusta su comportamiento.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>7. Puedo responder con asertividad a una humillación verbal.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>8. Puedo responder con firmeza cuando alguien valora mis ideas.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>9. Puedo decir a la gente cuánto me ha ofendido.</td>
+                        <td></td>
+                        <td>2</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>10. Sé que decir cuando recibo un halago.</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>11. Puedo elegir mi propio estilo de vida aunque los demás difieran.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>12. Puedo mantener contacto visual cuando expreso mis sentimientos, deseos y necesidades.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>13. Cuando me enfado puedo expresarme sin demostrar mi irritación, mi frustración o mi decepción.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>14. Puedo proceder ante los conflictos de forma constructiva.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>15. Puedo pedir ayuda a los demás.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>16. Puedo expresar mis discrepancias y opiniones sin dificultad.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>17. Puedo pedir una aclaración acerca de una expresión no verbal.</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>18. Utilizo afirmaciones en primera persona en vez de en segunda.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>19. Puedo aceptar los halagos.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>20. Siento confianza en mis capacidades.</td>
+                        <td>3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div style="margin-top: 20px;">
+            <h5 style="color: #75b6b6; font-weight: bold; text-align: center;">Resultado: 55 puntos</h5>
+            <p>Es normalmente asertivo. En algunas situaciones tiendes a serlo de forma natural, pero tal vez desees desarrollar tus capacidades adicionales.</p>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <h3 style="color: #75b6b6; font-weight: bold;">¿Como me siento?</h3>
+        <p style="font-size: 14px;"> <b>Criterio:</b> ¿Cómo me siento actualmente con respecto a las actividades y asignaciones que desempeño en el dia a dia?</p>
+        <p style="font-size: 28px;"> <b>Oxidado</b></p>
+        
+        <!-- Imagen centrada debajo del texto "Oxidado" -->
+        <div style="text-align: center;">
+            <img src="https://i.ibb.co/NVVX9G6/oxidado.jpg" alt="Descripción de la imagen" style="max-width: 100%; height: auto;">
+        </div>
+    </div> 
+    
+    <div class="container">
+        <button class="btn btn-primary btn-custom" id="toggleButton" onclick="toggleSemaphores()">Situación vs Protagonismo</button>
+    
+        <div class="table-container" id="semaphoresContainer" style="display: block;">
+            <table class="table table-bordered custom-table">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Situación</th>
+                        <th>Actitud Protagonista</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Me siento oxidado, en ocaciones siento escasas posibilidades de aplicar conocimientos en seguridad informática. (Se realiza Gestión de amenazas o del control principalmente)</td>
+                        <td>* Creatividad con el Workshop de Falco, tiene un matiz de pentest demo y alto grado de awareness.<br>
+                            * Incorporar reglas de terceros y avances en investigación de capabilities nuevas de Falco.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Fue pesado para Sebastián y mi persona.</td>
+                        <td>Para efectos de cumplimiento no utilice días de estudio.</td>
+                    </tr>
+                    <tr>
+                        <td>No hubo asignación relacionada a actividades de desarrollo.</td>
+                        <td>El Workshop de Falco automatiza comportamientos sospechosos y/o maliciosos (CLI - Interactive awareness). Falco Custom Rules Catalog y Falco Rules Activity Report son codificados en html pero no es  un desarrollo propiamente dicho.</td>
+                    </tr>
+                    <tr>
+                        <td>Goals en SSFF subjetivos y variables.</td>
+                        <td>Propongo revisión de Goals anuales.</td>
+                    </tr>
+                    <tr>
+                        <td>Ambigüedad con la prioridad de integración con bee.</td>
+                        <td>Propongo revisión de esta situación.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+
+        <div style="text-align: center; margin-top: 20px;">
+            <h3 style="color: #75b6b6; font-weight: bold;">Sugerencias hacia el lider</h3>
+
+        <!-- Recomendaciones para el equipo -->
+            <div class="recommendations">
+                <h4 style="color: #75b6b6;"></h4>
+                <p>✅ "Al asignar tareas, tener en cuenta el plan carrera, fortalezas (pérfil) y aspiraciones de cada empleado. Esto nos permite ser más efectivos y aprovechar mejor el talento del equipo."</p>
+                <p>💬 <em>"Cuanto más escuchas, más comprendes; y cuanto más comprendes, mejor puedes comunicarte."</em></p>
+                <p>✅ Tener en cuenta las aspiraciones profesionales del empleado al elevar la vara del equipo, promoviendo así el crecimiento de cada miembro.</p>
+                <p>✅ Se han logrado revertir muchas situaciones y aportarle mas al equipo, vamos por el camino correcto. </p>
+                <p>✅ Las actividades en las que no se aplican los conocimientos de seguridad informática se limitan a una seguridad solo de palabra <b>(seguridad oral)</b>, lo que disminuye las posibilidades de crecimiento profesional. Estas posibilidades se incrementan al aplicar y ejecutar temas técnicos.</p>
+                <p>✅ Hace casi 3 años estoy en Mercado Libre y solo he estado en Falco activamente. Aspiro impulsarme (crecer) en desarrollo en Golang (Backend developer) como fue propuesto en el offer y seguridad informatica aplicada, me siento saturado de la gestión de amenazas.</p>
+                <p>✅ Considerar que la seguridad informática sin pruebas de concepto o temas aplicados es como la programación en papel.</p>
+            </div>
+
+        </div>
+
+
+
+
+
+        <div class="summary" style="text-align: center; margin: 0 auto; max-width: 800px;">
+            <h2>Resumen</h2>
+            <p>
+                <!-- Aquí se puede agregar un resumen de las situaciones y las propuestas mencionadas. -->
+                <b> El Workshop de Falco ha sido un aporte positivo, promoviendo creatividad y conciencia en temas de seguridad y amenazas en ambientes de contenedores. He decidido incorporar las community rules para explorar y aumentar la cobertura y capacidades de Falco. Propongo realizar revisiones y ajustes en las metas que lo requieran, en particular para la integración con Bee. En resumen, me gustaría aplicar los conocimientos adquiridos en seguridad informática y desarrollo, especialmente en aspectos técnicos relacionados con vulnerabilidades en contenedores y Kubernetes, además de ciertas prácticas ofensivas y malware que permitan mejorar las detecciones de Falco. Como resultado de este enfoque, he creado reglas personalizadas y el workshop interactivo.</b>
+            </p>
+        </div>
+        <div style="text-align: center;">
+            <img src="https://i.postimg.cc/j2zkd3kJ/diome.jpg" alt="Descripción de la imagen" style="max-width: 100%; height: 100;">
+            <!-- I use other image server because image width -->
+        </div>
+
+        
+    </div>
+
+
+
+
+    </div>
+
+
+    <script>
+        // Función para mostrar/ocultar la tabla de semáforos
+        function toggleSemaphores() {
+            const semaphoresContainer = document.getElementById('semaphoresContainer');
+            semaphoresContainer.style.display = semaphoresContainer.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Función para mostrar/ocultar la tabla de sinergias
+        function toggleSinergias() {
+            const sinergiasContainer = document.getElementById('sinergiasContainer');
+            sinergiasContainer.style.display = sinergiasContainer.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Función para mostrar/ocultar la tabla de comunicación asertiva
+        function toggleAsertiva() {
+            const asertivaContainer = document.getElementById('asertivaContainer');
+            asertivaContainer.style.display = asertivaContainer.style.display === 'block' ? 'none' : 'block';
+        }
+
+
+
+        // Datos de asistencia organizados por mes
+        const asistenciaPorMes = {
+            'Junio': { dias: ['Jueves 27'], cantidad: 1 },
+            'Julio': { dias: ['Miércoles 3', 'Viernes 12', 'Jueves 25'], cantidad: 3 },
+            'Agosto': { dias: ['Jueves 8', 'Lunes 26'], cantidad: 2 },
+            'Septiembre': { dias: ['Lunes 9', 'Martes 10'], cantidad: 2 },
+            'Octubre': { dias: ['Jueves 9', 'Jueves 24'], cantidad: 2 },
+            'Noviembre': { dias: ['Jueves 7', 'Martes 12'], cantidad: 2 }
+        };
+
+        // Extraer los nombres de los meses para las etiquetas (labels)
+        const labels = Object.keys(asistenciaPorMes);
+
+        // Extraer las cantidades de asistencia por mes
+        const dataAsistencia = Object.values(asistenciaPorMes).map(mes => mes.cantidad);
+
+        // Crear los labels personalizados que muestren los días asistidos en cada mes
+        const diasAsistidos = Object.values(asistenciaPorMes).map(mes => mes.dias.join(', '));
+
+        // Configurar los datos del gráfico
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Asistencias por Mes',
+                data: dataAsistencia,
+                backgroundColor: 'rgba(0, 123, 255, 0.5)', // Color azul claro
+                borderColor: 'rgba(0, 123, 255, 1)', // Color azul
+                borderWidth: 1
+            }]
+        };
+
+        // Configurar el gráfico
+        const config = {
+            type: 'bar',
+            data: data,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1,
+                            precision: 0
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            afterLabel: function(context) {
+                                const index = context.dataIndex;
+                                return 'Días asistidos: ' + diasAsistidos[index];
+                            }
+                        }
+                    },
+                    legend: {
+                        display: false
+                    }
+                },
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        };
+
+        // Inicializar el gráfico
+        const asistenciaChart = new Chart(
+            document.getElementById('asistenciaChart'),
+            config
+        );
+
+
+
+
+
+
+        // Configuración del Radar Chart utilizando Chart.js
+        const ctx = document.getElementById('radarChart').getContext('2d');
+        const radarChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['IRT', 'WebSec', 'Crypto', 'CloudSec (KISS)', 'Datasec', 'Infrasec', 'Serverless'],
+                datasets: [{
+                    label: 'Efectividad de Sinergias Q3',
+                    data: [90, 90, 70, 90, 60, 90, 85], // Valores de efectividad
+                    backgroundColor: [
+                        'rgba(117, 182, 182, 0.5)',
+                        'rgba(255, 99, 132, 0.5)',
+                        'rgba(54, 162, 235, 0.5)',
+                        'rgba(255, 206, 86, 0.5)',
+                        'rgba(75, 192, 192, 0.5)',
+                        'rgba(153, 102, 255, 0.5)',
+                        'rgba(255, 159, 64, 0.5)'
+                    ],
+                    borderColor: [
+                        '#75b6b6',
+                        '#ff6384',
+                        '#36a2eb',
+                        '#ffce56',
+                        '#4bc0c0',
+                        '#9966ff',
+                        '#ff9f40'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                elements: {
+                    line: {
+                        tension: 0.1 // Suaviza las líneas
+                    }
+                },
+                scale: {
+                    ticks: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+<!-- Footer -->
+<footer>
+    <p>Diego Alejandro Posada Llano</p>
+    <p>Cyber Engineer</p>
+    <p>Mercado Libre - Observability Security</p>
+    <p>&copy; 2024</p>
+</footer>
+
+
+
+</html>
