@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currículum de Ingeniería</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans">
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold text-center mb-6">Currículum Profesional</h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                <h2 class="text-xl font-semibold mb-4">Seguridad Informática</h2>
+                <canvas id="securityChart"></canvas>
+            </div>
+            
+            <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                <h2 class="text-xl font-semibold mb-4">Cloud Computing</h2>
+                <p class="text-gray-400">(Se pueden agregar más habilidades aquí)</p>
+            </div>
+            
+            <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                <h2 class="text-xl font-semibold mb-4">Desarrollo de Software</h2>
+                <canvas id="devChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function createChart(canvasId, labels, data, colors) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Progreso',
+                        data: data,
+                        backgroundColor: colors,
+                        borderRadius: 10,
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                color: 'white'
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                color: 'white'
+                            }
+                        }
+                    },
+                    plugins: {
+                        datalabels: {
+                            anchor: 'center',
+                            align: 'right',
+                            color: 'white',
+                            formatter: (value) => value + '%'
+                        }
+                    }
+                }
+            });
+        }
+        
+        createChart('securityChart', ['Runtime Security', 'Ethical Hacking', 'Secure Coding', 'Software Security S-SDLC'], [80, 60, 90, 90], ['#3B82F6', '#10B981', '#FACC15', '#EF4444']);
+        createChart('devChart', ['Golang', 'Python', 'Ingeniería de Software'], [70, 60, 80], ['#9333EA', '#14B8A6', '#F97316']);
+    </script>
+</body>
+</html>

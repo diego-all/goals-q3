@@ -372,24 +372,17 @@
             <div class="rules-list">
                 <div>
                     <h5 style="text-align: center;">Reglas Custom</h5>
-                    <div class="rule">experimental 17 - Malicious cURL commands [custom]</div>
-                    <div class="rule">experimental 18 - Container escape behaviors detected inside the container [custom]</div>
-                    <div class="rule">experimental 19 - Container escape behavior based core pattern  [custom]</div>
-                    <div class="rule">experimental 20 - Container escape behavior based binfmt_misc [custom]</div>
-                    <div class="rule">experimental 26 - Web Scanner process detected inside a container [custom]</div>
-                    <div class="rule">experimental 28 - Fuzzy tools detected in container [custom]</div>
-                    <div class="rule">experimental 29 - NoSQL injection behaviors detected inside the container [custom]</div>
-                    <div class="rule">experimental 30 - Launch Advanced Network Toolset in container [custom]</div>
+                    <div class="rule" style="color: green; font-weight: bold;">🆕 experimental 31 - Arbitrary Host File Access from containers launched by containerd CRI (CVE-2022-23648) [custom]</div>
+                    <div class="rule" style="color: green; font-weight: bold;">🆕 experimental 32 - Suspicious Resource Exhaustion Command Detection (CVE-2022-31030) [custom]</div>
+                    <div class="rule" style="color: green; font-weight: bold;">🆕 experimental 33 - File Made Inmutable inside a Container [custom]</div>
+                    <div class="rule" style="color: green; font-weight: bold;">🆕 experimental 34 - Memory Swap modification inside a Container [custom]</div>
+                    <div class="rule" style="color: green; font-weight: bold;">🆕 experimental 35 - Command chaining patterns via pipe [custom]</div>
+                    <div class="rule" style="color: green; font-weight: bold;">🆕 experimental 36 - Suspicious Mining Process Creation Event [custom]</div>
+                    <div class="rule" style="color: green; font-weight: bold;">🆕 experimental 37 - Suspicious Memory Grep Activity [custom]</div>
                 </div>
                 <div>
                     <h5 style="text-align: center;">Reglas Third Party</h5>
-                    <div class="rule">Backdoored library loaded into SSHD</div>
-                    <div class="rule">PTRACE anti-debug attempt</div>
-                    <div class="rule">PTRACE attached to process</div>
-                    <div class="rule">Find AWS Credentials</div>
-                    <div class="rule">Linux Cgroup Container Escape Vulnerability (CVE-2022-4092)</div>
-                    <div class="rule">Execution from /dev/shm</div>
-                    <div class="rule">Suspicious Java Child Processes</div>
+                    <div class="rule" style="color: orange; font-weight: bold;">⚠️"Third-party rules were not deployed in Q4 to prevent event drop."</div>
                 </div>
             </div>
         </div>
@@ -436,14 +429,13 @@
 
 
         <div style="text-align: center; margin-top: 20px;">
-            <h3 style="color: #75b6b6; font-weight: bold;">Implementación de Semáforos de Seguridad en Kubernetes</h3>
-            <p style="font-size: 14px;"> <b>Criterio:</b> Implementar 6 semáforos de detección de anomalías en Kubernetes basados en Falco.</p>
-            <p>Semáforos implementados que cubren diversos escenarios de seguridad.</p>
+            <h3 style="color: #75b6b6; font-weight: bold;">Dashboard de métricas Falco</h3>
+            <p style="font-size: 14px;"> <b>Criterio:</b> Investigar la metodología y calcular el security coverage del baseline de reglas de Falco desplegado.</p>
         </div>
         
         <div class="container">
             <h4 class="text-center my-3">Semáforos</h4>
-            <button class="btn btn-primary btn-custom" id="toggleButton" onclick="toggleSemaphores()">Ver Semáforos</button>
+            <button class="btn btn-primary btn-custom" id="toggleButton" onclick="toggleSemaphores()">Ver Métricas</button>
         
             <div class="table-container" id="semaphoresContainer">
                 <table class="table table-bordered custom-table">
@@ -456,26 +448,30 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Directory traversal pattern</td>
-                            <td>Semáforo capaz de detectar escenarios anómalos del tipo directory traversal pattern</td>
-                            <td>PROD</td>
+                            <td>MITRE based security coverage</td>
+                            <td>Cobertura de seguridad basada en MITRE según la táctica asociada a cada regla de Falco.
+                            </td>
+                            <td>Done</td>
                         </tr>
                         <tr>
-                            <td>Exfiltration</td>
-                            <td>Semáforo capaz de detectar escenarios anómalos de exfiltración de datos en los clusters de Kubernetes</td>
-                            <td>PROD</td>
+                            <td>Detection surface-based security coverage</td>
+                            <td>Cobertura de seguridad basada en la superficie de detección para cada regla de Falco.
+                            </td>
+                            <td>Done</td>
                         </tr>
                         <tr>
-                            <td>Lateral movement</td>
-                            <td>Semáforo capaz de detectar escenarios anómalos de movimiento lateral en los clusters de Kubernetes</td>
-                            <td>PROD</td>
+                            <td>Individual effectiveness per rule
+                            </td>
+                            <td>La efectividad individual de cada regla se presenta en función del número de falsos positivos bajos. Esta información se calcula utilizando los eventos generados por Falco en MELI durante 2024.y Falco at MELI during 2024.</td>
+                            <td>Done</td>
                         </tr>
                         <tr>
-                            <td>Persistence</td>
-                            <td>Semáforo capaz de detectar escenarios anómalos de persistencia en los clusters de Kubernetes</td>
-                            <td>PROD</td>
+                            <td>Rules Effectiveness Evaluation
+                            </td>
+                            <td>Mide qué tan efectivas son las reglas de detección en identificar amenazas reales. Se evalúa con base en probar cada regla y validar su correcto funacionamiento. </td>
+                            <td>Done</td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td>Execution</td>
                             <td>Semáforo capaz de detectar escenarios anómalos de ejecución de comandos en los clusters de Kubernetes</td>
                             <td>PROD</td>
@@ -484,7 +480,7 @@
                             <td>Kernel Module Injection</td>
                             <td>Semáforo capaz de detectar comportamientos anómalos de inyección en el módulo del kernel</td>
                             <td>PROD</td>
-                        </tr>
+                        </tr> -->
                     </tbody>
                 </table>
             </div>
@@ -492,66 +488,67 @@
 
 
         <div style="text-align: center; margin-top: 20px;">
-            <h3 style="color: #75b6b6; font-weight: bold;">Integración alertas de Falco con Bee</h3>
-            <p style="font-size: 14px;"><b>Criterio:</b> Llevar a produccion entre 3 alertas o 7 a test.</p>
+            <h3 style="color: #75b6b6; font-weight: bold;">Falco-m4n (Falco Management Prototype)</h3>
+            <p style="font-size: 14px;"><b>Criterio:</b> Proponer una solución que permita centralizar la información interna y externa relevante de falco para optimizar las sinergias.</p>
             <p>
 
-                <li>Se llevan 7 alertas a test. Datasec no aprueba el PR debido al alto nivel de ruido.</li>
-                <li>Se implementa skip-Duplicates para reducir eventos redundantes en el middleware de bee para todas las alertas en test.</li>
-                <li>A la espera de recibir base de datos de administradores por cluster desde crypto.</li>
+                <!-- <li>Diseño y Maquetación del sitio.</li>
+                <li>Sección Rules</li>
+                <li>Sección Metrics</li>
+                <li>Sección Security (Under construction)</li> -->
             </p>
         </div>
 
         <div class="container">
-            <h4 class="text-center my-3">Alertas</h4>
-            <button class="btn btn-primary btn-custom" id="toggleButton" onclick="toggleAlerts()">Ver Alertas</button>
+            <h4 class="text-center my-3">Secciones</h4>
+            <button class="btn btn-primary btn-custom" id="toggleButton" onclick="toggleAlerts()">Ver Secciones</button>
     
             <div class="table-container" id="alertsContainer">
                 <table class="table table-bordered custom-table">
                     <thead class="thead-light">
                         <tr>
                             <th>Nombre</th>
+                            <th>Descripción</th>
                             <th>Estado</th>
-                            <th>Skip-Duplicates</th>
-                            <th>Skip-Duplicates Date</th>
+                            <!-- <th>Skip-Duplicates Date</th>
                             <th>Actor1</th>
-                            <th>Actor2</th>
+                            <th>Actor2</th> -->
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>[Falco] Launch Remote File Copy Tools in Container</td>
-                            <td>PROD</td>
-                            <td>PROD</td>
-                            <td>septiembre 13 de 2024</td>
+                            <td>Diseño y Maquetación del sitio.</td>
+                            <td>Loren Ipsum</td>
+                            <td>Done</td>
+                            <!-- <td>septiembre 13 de 2024</td>
                             <td>Waiting</td>
-                            <td>Obsec</td>
+                            <td>Obsec</td> -->
                         </tr>
                         <tr>
-                            <td>[Falco] Read ssh information</td>
-                            <td>TEST</td>
-                            <td>TEST</td>
-                            <td>septiembre 23 de 2024</td>
+                            <td>Sección Rules</td>
+                            <td>Loren Ipsum</td>
+                            <td>Done</td>
+                            <!-- <td>septiembre 23 de 2024</td>
                             <td>Waiting</td>
-                            <td>Obsec</td>
+                            <td>Obsec</td> -->
                         </tr>
                         <tr>
-                            <td>[Falco] Launch Suspicious Network Tool in Container</td>
-                            <td>TEST</td>
-                            <td>TEST</td>
-                            <td>septiembre 23 de 2024</td>
+                            <td>Sección Metrics</td>
+                            <td>Loren Ipsum</td>
+                            <td>Done</td>
+                            <!-- <td>septiembre 23 de 2024</td>
                             <td>Waiting</td>
-                            <td>Obsec</td>
+                            <td>Obsec</td> -->
                         </tr>
                         <tr>
-                            <td>[Falco] Netcat Remote Code Execution in Container</td>
-                            <td>TEST</td>
-                            <td>TEST</td>
-                            <td>septiembre 23 de 2024</td>
+                            <td>Sección Security (Under construction)</td>
+                            <td>Loren Ipsum</td>
+                            <td>Done</td>
+                            <!-- <td>septiembre 23 de 2024</td>
                             <td>Waiting</td>
-                            <td>Obsec</td>
+                            <td>Obsec</td> -->
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td>[Falco] Launch Suspicious Network Tool on Host</td>
                             <td>TEST</td>
                             <td>TEST</td>
@@ -574,14 +571,14 @@
                             <td>septiembre 23 de 2024</td>
                             <td>Waiting</td>
                             <td>Obsec</td>
-                        </tr>
+                        </tr> -->
                     </tbody>
                 </table>
             </div>
         </div>
 
         <div style="text-align: center; margin-top: 20px;">
-            <h3 style="color: #75b6b6; font-weight: bold;">Otros Falco</h3>
+            <h3 style="color: #75b6b6; font-weight: bold;">Falco Maturity Approach</h3>
             <p style="font-size: 14px;"><b>Criterio:</b> Realizar o proponer algunas otras iniciativas o actividades que surgen en el dia a dia.</p>
         </div>
 
@@ -598,7 +595,7 @@
                     <img src="https://drugmonitoringcentre.org/wp-content/uploads/2021/11/report.png" alt="" style="height: 160px;">
                     <!-- <img src="/assets/falcoRulesActivityReport.png" alt="Imagen de fondo"> -->
                     <div class="diamond-card-content">
-                        <h4>Falco Rules Activity Report</h4>
+                        <h4>Correlación de comportamintos de falco (Escenarios)</h4>
                     </div>
                 </div>
     
@@ -607,7 +604,7 @@
                     <!-- <img src="https://via.placeholder.com/200" alt="Imagen de fondo"> -->
                     <img src="https://cdn.prod.website-files.com/605c9e03d6553a5d82976ce2/66ba447d77ab513aaa3afe58_11068821.png" alt="" style="width: 150px; height: 150px;">
                     <div class="diamond-card-content">
-                        <h4>Propuesta Dashboard Madurez</h4>
+                        <h4>Efectividad basado en simulación</h4>
                     </div>
                 </div>
     
@@ -616,7 +613,7 @@
                     <!-- <img src="https://via.placeholder.com/200" alt="Imagen de fondo"> -->
                     <img src="https://static.vecteezy.com/system/resources/previews/000/421/699/non_2x/vector-documents-icon.jpg" alt="">
                     <div class="diamond-card-content">
-                        <h4>Inicio RFC Falco en Instancias EC2</h4>
+                        <h4>Reetiquetar tacticas de MITRE</h4>
                     </div> 
                 </div>
             </div>
@@ -636,17 +633,17 @@
                 <!-- Tarjeta 1 -->
                 <div class="card-container text-center">
                     <div class="octagonal-card" onclick="window.location.href='https://www.ejemplo.com/vendor'">
-                        <img src="https://i.ibb.co/Tc0tCzJ/sarlaft.png" alt="Imagen de fondo" style="width: 230px; height: 230px;">
+                        <!-- <img src="https://i.ibb.co/Tc0tCzJ/sarlaft.png" alt="Imagen de fondo" style="width: 230px; height: 230px;"> -->
                     </div>
-                    <h4>SARLAFT</h4>
+                    <h4>Loren Ipsum</h4>
                 </div>
         
                 <!-- Tarjeta 2 -->
                 <div class="card-container text-center">
                     <div class="octagonal-card" onclick="window.location.href='https://www.ejemplo.com/custom'">
-                        <img src="https://i.ibb.co/hfWYktv/SDLC.jpg" alt="Imagen de fondo" style="width: 150px; height: 150px;">
+                        <!-- <img src="https://i.ibb.co/hfWYktv/SDLC.jpg" alt="Imagen de fondo" style="width: 150px; height: 150px;"> -->
                     </div>
-                    <h4>Seguridad <br >en el Ciclo <br> de Desarrollo</h4>
+                    <h4>Loren Ipsum</h4>
                 </div>
         
             </div>

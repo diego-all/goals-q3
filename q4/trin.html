@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temáticas de Ciberseguridad 2025</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans">
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold text-center mb-6">Temáticas de Ciberseguridad 2025</h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                <h2 class="text-xl font-semibold mb-4">Distribución de Temáticas</h2>
+                <canvas id="themesChart"></canvas>
+            </div>
+            <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                <h2 class="text-xl font-semibold mb-4">Impacto de las Amenazas</h2>
+                <canvas id="threatsChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const themesCtx = document.getElementById('themesChart').getContext('2d');
+        new Chart(themesCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Application Security Testing', 'Secure Code', 'Vulnerabilities', 'Malware'],
+                datasets: [{
+                    data: [30, 25, 25, 20],
+                    backgroundColor: ['#3B82F6', '#10B981', '#F59E0B', '#EF4444']
+                }]
+            }
+        });
+
+        const threatsCtx = document.getElementById('threatsChart').getContext('2d');
+        new Chart(threatsCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Application Security Testing', 'Secure Code', 'Vulnerabilities', 'Malware'],
+                datasets: [{
+                    label: 'Nivel de Impacto',
+                    data: [80, 70, 90, 85],
+                    backgroundColor: ['#6366F1', '#06B6D4', '#FACC15', '#F97316']
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+    </script>
+</body>
+</html>
